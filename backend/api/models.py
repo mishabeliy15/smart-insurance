@@ -1,7 +1,8 @@
 import hashlib
 
+from commons.models import BaseModel
 from django.contrib.auth.models import AbstractUser
-from django.core.validators import MinValueValidator, MaxValueValidator
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.utils.translation import gettext as _
 from dry_rest_permissions.generics import authenticated_users
@@ -25,14 +26,6 @@ class User(AbstractUser):
 
     def __str__(self) -> str:
         return self.username
-
-
-class BaseModel(models.Model):
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        abstract = True
 
 
 def company_directory_path(instance: "Company", filename: str) -> str:
@@ -75,21 +68,17 @@ class Company(BaseModel):
     )
 
     max_speed_discount = models.FloatField(
-        validators=(MinValueValidator(0),),
-        verbose_name=_("Max speed discount"),
+        validators=(MinValueValidator(0),), verbose_name=_("Max speed discount"),
     )
     max_speed_penalty = models.FloatField(
-        validators=(MinValueValidator(0),),
-        verbose_name=_("Max speed penalty"),
+        validators=(MinValueValidator(0),), verbose_name=_("Max speed penalty"),
     )
 
     max_rotate_head_discount = models.FloatField(
-        validators=(MinValueValidator(0),),
-        verbose_name=_("Max rotate head discount"),
+        validators=(MinValueValidator(0),), verbose_name=_("Max rotate head discount"),
     )
     max_rotate_head_penalty = models.FloatField(
-        validators=(MinValueValidator(0),),
-        verbose_name=_("Max rotate head penalty"),
+        validators=(MinValueValidator(0),), verbose_name=_("Max rotate head penalty"),
     )
 
     class Meta:

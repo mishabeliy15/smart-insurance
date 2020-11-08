@@ -28,6 +28,8 @@ class CompanyAdmin(admin.ModelAdmin):
         "base_price",
         "min_price",
         "max_price",
+        "created",
+        "updated",
         "percent_over_speeding",
         "min_speed_commit_rotate_head",
         "percent_head_rotate_for_hour",
@@ -38,6 +40,6 @@ class CompanyAdmin(admin.ModelAdmin):
     )
 
     fields = list_display
-    readonly_fields = ("id",)
-    list_filter = ("owner",)
+    readonly_fields = ("id", "created", "updated")
+    list_filter = ("owner", "created", "updated")
     search_fields = ("id", "name", "logo", "base_price")

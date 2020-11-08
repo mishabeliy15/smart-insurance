@@ -1,4 +1,4 @@
-from api.models import Company
+from api.models import Company, User
 from django.utils.translation import gettext as _
 from djoser.serializers import UserCreateSerializer
 from dry_rest_permissions.generics import DRYPermissionsField
@@ -19,6 +19,12 @@ class MyUserCreateSerializer(UserCreateSerializer):
             "last_name": {"required": True, "allow_blank": False},
             "user_type": {"required": True},
         }
+
+
+class CurrentUserSerializer(ModelSerializer):
+    class Meta:
+        model = User
+        exclude = ("password",)
 
 
 class CompanySerializer(ModelSerializer):

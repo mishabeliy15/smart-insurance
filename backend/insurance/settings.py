@@ -54,7 +54,10 @@ INSTALLED_APPS = [
     "djoser",
     "drf_spectacular",
     "dry_rest_permissions",
+    "django_filters",
+    "django.contrib.gis",
     "api.apps.ApiConfig",
+    "sensors.apps.SensorsConfig",
 ]
 
 MIDDLEWARE = [
@@ -95,10 +98,13 @@ WSGI_APPLICATION = "insurance.wsgi.application"
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 DATABASES = {
-    "default": env.db(
-        "DATABASE_URL",
-        default="postgresql://insurance:secret@insurance-db:5432/insurance",
-    )
+    "default": {
+        **env.db(
+            "DATABASE_URL",
+            default="postgresql://insurance:secret@insurance-db:5432/insurance",
+        ),
+        "ENGINE": "django.contrib.gis.db.backends.postgis",
+    }
 }
 
 
@@ -158,6 +164,7 @@ REST_FRAMEWORK = {
     ),
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
     "DEFAULT_METADATA_CLASS": "rest_framework.metadata.SimpleMetadata",
+    "DEFAULT_FILTER_BACKENDS": ("django_filters.rest_framework.DjangoFilterBackend",),
 }
 
 # Simple JWT
@@ -176,7 +183,10 @@ SIMPLE_JWT = {
 # Djoser
 
 DJOSER = {
-    "SERIALIZERS": {"user_create": "api.serializers.MyUserCreateSerializer",},
+    "SERIALIZERS": {
+        "user_create": "api.serializers.MyUserCreateSerializer",
+        "current_user": "api.serializers.CurrentUserSerializer",
+    },
 }
 
 # AWS

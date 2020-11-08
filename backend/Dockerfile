@@ -1,6 +1,7 @@
 FROM python:3.8.5-slim-buster
 
-ENV PYTHONUNBUFFERED=1
+ENV PYTHONUNBUFFERED=1 \
+    DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update -yqq \
     && apt-get upgrade -yqq \
@@ -8,6 +9,10 @@ RUN apt-get update -yqq \
     && apt-get install -yqq \
         build-essential \
         python3-dev \
+        apt-utils \
+        binutils \
+        libproj-dev \
+        gdal-bin \
     && apt-get autoclean -yqq \
     && apt-get autoremove -yqq
 
