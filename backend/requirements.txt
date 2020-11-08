@@ -1,0 +1,13 @@
+Django
+django-cors-headers
+django-environ
+django-filter
+djangorestframework
+djangorestframework-simplejwt
+djoser
+drf-spectacular
+uWSGI
+social-auth-app-django
+social-auth-core
+Pillow
+psycopg2-binary
