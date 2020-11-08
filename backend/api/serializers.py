@@ -1,6 +1,8 @@
 from api.models import Company
+from django.utils.translation import gettext as _
 from djoser.serializers import UserCreateSerializer
 from dry_rest_permissions.generics import DRYPermissionsField
+from rest_framework.exceptions import ValidationError
 from rest_framework.serializers import ModelSerializer
 
 
@@ -25,3 +27,10 @@ class CompanySerializer(ModelSerializer):
     class Meta:
         model = Company
         exclude = ("owner",)
+
+    def validate(self, data):
+        if data["min_price"] > data["base_price"]:
+            raise ValidationError(_("Min price must be <= base price."))
+        if data["max_price"] < data["base_price"]:
+            raise ValidationError(_("Max price must be >= base price."))
+        return data
