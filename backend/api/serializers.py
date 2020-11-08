@@ -1,14 +1,9 @@
-from rest_framework.serializers import ModelSerializer
-
-from api.models import User
+from djoser.serializers import UserCreateSerializer
 
 
-class UserCreateSerializer(ModelSerializer):
-    class Meta:
-        model = User
-        fields = ("username", "password", "first_name", "last_name", "user_type")
+class MyUserCreateSerializer(UserCreateSerializer):
+    class Meta(UserCreateSerializer.Meta):
+        fields = [*UserCreateSerializer.Meta.fields, "user_type"]
         extra_kwargs = {
-            "first_name": {"required": True, "allow_blank": False},
-            "last_name": {"required": True, "allow_blank": False},
             "user_type": {"required": True, "allow_blank": False},
         }
