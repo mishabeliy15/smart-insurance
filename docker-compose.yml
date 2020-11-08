@@ -38,6 +38,8 @@ services:
       - ./nginx/conf/proxy_params.conf:/etc/nginx/proxy_params.conf
       - ./nginx/logs/:/var/log/nginx/
       - ./backend/static/:/data/static/
+      - ./backend/media/:/data/media/
+      - ./nginx/certs:/etc/nginx/certs
     ports:
       - 80:80
       - 443:443

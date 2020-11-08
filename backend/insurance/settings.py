@@ -25,7 +25,9 @@ env = environ.Env()
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "*06-8gkx=yc^zp&ihkcuy4am0*+dt&ariuv68y1sj0%vya^$@@"
+SECRET_KEY = env.str(
+    "SECRET_KEY", default="*06-8gkx=yc^zp&ihkcuy4am0*+dt&ariuv68y1sj0%vya^$@@"
+)
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool("DEBUG", False)
@@ -38,6 +40,8 @@ CORS_ALLOW_ALL_ORIGINS = env.bool("CORS_ALLOW_ALL_ORIGINS", True)
 # Application definition
 
 INSTALLED_APPS = [
+    "jet.dashboard",
+    "jet",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -49,6 +53,7 @@ INSTALLED_APPS = [
     "rest_framework.authtoken",
     "djoser",
     "drf_spectacular",
+    "dry_rest_permissions",
     "api.apps.ApiConfig",
 ]
 
@@ -173,3 +178,32 @@ SIMPLE_JWT = {
 DJOSER = {
     "SERIALIZERS": {"user_create": "api.serializers.MyUserCreateSerializer",},
 }
+
+# AWS
+AWS_ACCESS_KEY_ID = env.str("AWS_ACCESS_KEY_ID")
+AWS_SECRET_ACCESS_KEY = env.str("AWS_SECRET_ACCESS_KEY")
+AWS_S3_REGION_NAME = env.str("AWS_S3_REGION_NAME", default="eu-central-1")
+
+AWS_S3_SIGNATURE_VERSION = env.str("AWS_S3_SIGNATURE_VERSION", default="s3v4")
+AWS_QUERYSTRING_AUTH = env.bool("AWS_QUERYSTRING_AUTH", default=True)
+AWS_DEFAULT_ACL = env.str("AWS_DEFAULT_ACL", None)  # "public-read" for public buckets
+
+USE_AWS_FOR_MEDIA = env.bool("USE_AWS_FOR_MEDIA", False)
+USE_AWS_FOR_STATIC = env.bool("USE_AWS_FOR_STATIC", False)
+
+if USE_AWS_FOR_MEDIA:
+    DEFAULT_FILE_STORAGE = "api.storages.S3MediaStorage"
+
+if USE_AWS_FOR_STATIC:
+    STATICFILES_STORAGE = "api.storages.S3StaticStorage"
+
+AWS_S3_STATIC_BUCKET_NAME = env.str(
+    "AWS_S3_STATIC_BUCKET_NAME", default="smart-auto-insurance"
+)
+AWS_S3_MEDIA_BUCKET_NAME = env.str(
+    "AWS_S3_MEDIA_BUCKET_NAME", default="smart-auto-insurance"
+)
+
+# JET
+
+X_FRAME_OPTIONS = "SAMEORIGIN"
