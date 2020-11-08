@@ -1,6 +1,7 @@
 import hashlib
 
 from django.contrib.auth.models import AbstractUser
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from django.utils.translation import gettext as _
 from dry_rest_permissions.generics import authenticated_users
@@ -16,7 +17,10 @@ class User(AbstractUser):
     )
 
     user_type = models.PositiveSmallIntegerField(
-        choices=USER_TYPE_CHOICES, default=DRIVER, verbose_name=_("User type"),
+        choices=USER_TYPE_CHOICES,
+        default=DRIVER,
+        editable=False,
+        verbose_name=_("User type"),
     )
 
     def __str__(self) -> str:
@@ -44,9 +48,61 @@ class Company(BaseModel):
     logo = models.ImageField(
         upload_to=company_directory_path, verbose_name=_("Company logo")
     )
-    base_price = models.FloatField(verbose_name=_("Base price"))
-    min_price = models.FloatField(verbose_name=_("Min price"))
-    max_price = models.FloatField(verbose_name=_("Max price"))
+
+    base_price = models.FloatField(
+        validators=(MinValueValidator(0),), verbose_name=_("Base price")
+    )
+    min_price = models.FloatField(
+        validators=(MinValueValidator(0),), verbose_name=_("Min price")
+    )
+    max_price = models.FloatField(
+        validators=(MinValueValidator(0),), verbose_name=_("Max price")
+    )
+
+    percent_over_speeding = models.FloatField(
+        validators=(MinValueValidator(1), MaxValueValidator(100)),
+        verbose_name=_("Percent allowed over speeding"),
+    )
+
+    min_speed_commit_rotate_head = models.FloatField(
+        validators=(MinValueValidator(0), MaxValueValidator(200)),
+        verbose_name=_("Minimum speed to commit rotate head"),
+    )
+
+    percent_head_rotate_for_hour = models.FloatField(
+        validators=(MinValueValidator(1), MaxValueValidator(100)),
+        verbose_name=_("Percent head rotation for hour"),
+    )
+
+    max_speed_discount = models.FloatField(
+        validators=(MinValueValidator(0),),
+        verbose_name=_("Max speed discount"),
+    )
+    max_speed_penalty = models.FloatField(
+        validators=(MinValueValidator(0),),
+        verbose_name=_("Max speed penalty"),
+    )
+
+    max_rotate_head_discount = models.FloatField(
+        validators=(MinValueValidator(0),),
+        verbose_name=_("Max rotate head discount"),
+    )
+    max_rotate_head_penalty = models.FloatField(
+        validators=(MinValueValidator(0),),
+        verbose_name=_("Max rotate head penalty"),
+    )
+
+    class Meta:
+        constraints = (
+            models.CheckConstraint(
+                check=models.Q(min_price__lte=models.F("base_price")),
+                name=_("Min price must be <= base price."),
+            ),
+            models.CheckConstraint(
+                check=models.Q(max_price__gte=models.F("base_price")),
+                name=_("Max price must be >= base price."),
+            ),
+        )
 
     @property
     def md5_name(self) -> str:
