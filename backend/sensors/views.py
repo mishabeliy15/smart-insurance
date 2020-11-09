@@ -3,15 +3,17 @@ from rest_framework.decorators import action
 from rest_framework.filters import SearchFilter
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
-from rest_framework_gis.filters import DistanceToPointOrderingFilter
-
+from rest_framework_gis.filters import (
+    DistanceToPointFilter,
+    DistanceToPointOrderingFilter,
+)
 from sensors.clients import MyMappiRoadAPIClient
 from sensors.filters import SensorFilterBackend, SpeedRecordFilterBackend
 from sensors.models import Sensor, SpeedRecord
 from sensors.serializers import (
-    SpeedRecordSerializer,
-    DefaultSensorSerializer,
     CreateSensorSerializer,
+    DefaultSensorSerializer,
+    SpeedRecordSerializer,
 )
 
 
@@ -50,11 +52,13 @@ class SpeedRecordViewSet(ModelViewSet):
     serializer_class = SpeedRecordSerializer
     filter_backends = (
         SpeedRecordFilterBackend,
+        DistanceToPointFilter,
         DistanceToPointOrderingFilter,
         DjangoFilterBackend,
         SearchFilter,
     )
     distance_ordering_filter_field = "location"
+    distance_filter_field = "location"
     filterset_fields = (
         "id",
         "speed",

@@ -19,7 +19,7 @@ class MyMappiRoadAPIClient(BaseRoadAPIClient):
     API_URL = "https://api.mymappi.com/"
     API_ROADS_LIMIT = f"{API_URL}v1/roads/speed-limit"
 
-    def __init__(self, key=MYMAPPI_API_KEY):
+    def __init__(self, key: str = MYMAPPI_API_KEY):
         super(MyMappiRoadAPIClient, self).__init__(key)
 
     def get_roads(self, lat: float, lon: float) -> dict:
