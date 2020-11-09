@@ -3,7 +3,7 @@ version: '3'
 services:
   insurance-db:
     image: kartoza/postgis
-    container_name: insurance
+    container_name: insurance-db
     environment:
       POSTGRES_DB: insurance
       POSTGRES_USER: insurance

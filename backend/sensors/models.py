@@ -72,3 +72,24 @@ class SpeedRecord(BaseModel):
     location = models.PointField(
         geography=True, editable=False, verbose_name=_("Location")
     )
+
+    @staticmethod
+    @authenticated_users
+    def has_read_permission(request) -> bool:
+        return True
+
+    @authenticated_users
+    def has_object_read_permission(self, request) -> bool:
+        return request.user.is_superuser or self.sensor.owner == request.user
+
+    @staticmethod
+    def has_create_permission(request) -> bool:
+        return True
+
+    @authenticated_users
+    def has_object_destroy_permission(self, request) -> bool:
+        return request.user.is_superuser
+
+    @authenticated_users
+    def has_object_update_permission(self, request) -> bool:
+        return False

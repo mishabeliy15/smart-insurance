@@ -50,12 +50,14 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "corsheaders",
     "rest_framework",
+    "rest_framework_gis",
     "rest_framework.authtoken",
     "djoser",
     "drf_spectacular",
     "dry_rest_permissions",
     "django_filters",
     "django.contrib.gis",
+    "drf_extra_fields",
     "api.apps.ApiConfig",
     "sensors.apps.SensorsConfig",
 ]
@@ -190,8 +192,8 @@ DJOSER = {
 }
 
 # AWS
-AWS_ACCESS_KEY_ID = env.str("AWS_ACCESS_KEY_ID")
-AWS_SECRET_ACCESS_KEY = env.str("AWS_SECRET_ACCESS_KEY")
+AWS_ACCESS_KEY_ID = env.str("AWS_ACCESS_KEY_ID", None)
+AWS_SECRET_ACCESS_KEY = env.str("AWS_SECRET_ACCESS_KEY", None)
 AWS_S3_REGION_NAME = env.str("AWS_S3_REGION_NAME", default="eu-central-1")
 
 AWS_S3_SIGNATURE_VERSION = env.str("AWS_S3_SIGNATURE_VERSION", default="s3v4")
@@ -217,3 +219,7 @@ AWS_S3_MEDIA_BUCKET_NAME = env.str(
 # JET
 
 X_FRAME_OPTIONS = "SAMEORIGIN"
+
+# MyMappi
+
+MYMAPPI_API_KEY = env.str("MYMAPPI_API_KEY", default=None)
