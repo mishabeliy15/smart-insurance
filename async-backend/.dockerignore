@@ -1,0 +1,16 @@
+__pycache__/**
+.pytest_cache/**
+*.pyc
+/.venv
+/east
+east/*
+.venv/*
+.git
+.git/**/*
+.vscode
+.vscode/**/*
+.idea
+.idea/**/*
+ai/models/*
+ai/models
+./ai/models

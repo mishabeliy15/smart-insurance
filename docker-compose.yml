@@ -29,12 +29,28 @@ services:
     networks:
       - insurance_default
 
+  insurance-ai:
+    container_name: insurance-ai
+    build: ./async-backend/
+    env_file:
+      - ./async-backend/.env
+    ports:
+      - 8001:80
+    volumes:
+      - ./async-backend/ai/models:/models
+      - ./async-backend/:/usr/src/app/
+    depends_on:
+      - insurance-backend
+    networks:
+      - insurance_default
+
   insurance-nginx:
     container_name: insurance-nginx
     image: nginx:1.19.4-alpine
     volumes:
       - ./nginx/conf/nginx.conf:/etc/nginx/conf.d/default.conf
       - ./nginx/conf/proxy_backend.conf:/etc/nginx/proxy_backend.conf
+      - ./nginx/conf/proxy_ai.conf:/etc/nginx/proxy_ai.conf
       - ./nginx/conf/proxy_params.conf:/etc/nginx/proxy_params.conf
       - ./nginx/logs/:/var/log/nginx/
       - ./backend/static/:/data/static/
@@ -45,6 +61,7 @@ services:
       - 443:443
     depends_on:
       - insurance-backend
+      - insurance-ai
     networks:
       - insurance_default
 
