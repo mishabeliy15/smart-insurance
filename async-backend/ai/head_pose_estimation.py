@@ -155,11 +155,9 @@ def get_horizontal_angle(img, annotate_image=True) -> Tuple[int, np.ndarray]:
             cv2.line(img, p1, p2, (0, 255, 255), 2)
 
             if horizontal_angle >= 30:
-                print("Head right")
                 cv2.putText(img, "Head right", (90, 30), font, 2, (255, 255, 128), 3)
 
             elif horizontal_angle <= -30:
-                print("Head left")
                 cv2.putText(img, "Head left", (90, 30), font, 2, (255, 255, 128), 3)
 
             cv2.putText(img, str(horizontal_angle), tuple(x1), font, 2, (255, 255, 128), 3)

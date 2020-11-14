@@ -1,14 +1,14 @@
 import cv2
 
 from ai.head_pose_estimation import get_horizontal_angle
-from fastapi import APIRouter, File, UploadFile, Response, Form
+from fastapi import APIRouter, File, Response, UploadFile
 from server.common import read_image_from_file
 
 router = APIRouter()
 
 
-@router.post("/angle/image/")
-async def head_horizontal_angle(image_file: UploadFile = File(..., alias="image")):
+@router.post("/landmark/")
+async def head_landmark(image_file: UploadFile = File(..., alias="image")):
     image = await read_image_from_file(image_file)
     angle, res_image = get_horizontal_angle(image, True)
     _, res_image_file = cv2.imencode(".png", res_image)
