@@ -1,9 +1,13 @@
+import datetime
+
 from api.models import User
 from commons.models import BaseModel
 from django.contrib.gis.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.utils.translation import gettext as _
 from dry_rest_permissions.generics import authenticated_users
+
+from insurance.settings import SPEED_RECORD_MAX_INTERVAL
 from sensors.managers import NearDateManger
 
 
@@ -100,6 +104,31 @@ class SpeedRecord(BaseSensorRecord):
     )
 
     objects = NearDateManger()
+
+    @classmethod
+    def get_avg_user_over_speed(cls, user) -> float:
+        speed_records = list(
+            cls.objects.filter(sensor__owner=user)
+            .order_by("created")
+            .values("created", "over_speed", "speed")
+        )
+        total_seconds = total_over_speed = 0
+        prev_record = {
+            "created": datetime.datetime.fromtimestamp(0, tz=datetime.timezone.utc)
+        }
+        for record in speed_records:
+            interval = (record["created"] - prev_record["created"]).total_seconds()
+            if (
+                interval > SPEED_RECORD_MAX_INTERVAL
+                or prev_record["speed"] == record["speed"] == 0
+            ):
+                prev_record = record
+                continue
+            avg_over = (prev_record["over_speed"] + record["over_speed"]) / 2
+            total_seconds += interval
+            total_over_speed += avg_over * interval
+        avg_over_speed = total_over_speed / total_seconds
+        return avg_over_speed
 
 
 class HeadRotateRecord(BaseSensorRecord):

@@ -76,10 +76,11 @@ class SpeedRecordViewSet(ModelViewSet):
     api_client = MyMappiRoadAPIClient()
 
     def perform_create(self, serializer):
-        p = self.request.data["location"]
-        max_speed = self.api_client.get_speed_limit(p["latitude"], p["longitude"])
-        over_speed = self.request.data["speed"] / max_speed
-        serializer.save(over_speed=over_speed)
+        if serializer.is_valid():
+            p = serializer.validated_data["location"]
+            max_speed = self.api_client.get_speed_limit(p.y, p.x)
+            over_speed = serializer.validated_data["speed"] / max_speed
+            serializer.save(over_speed=over_speed)
 
 
 class HeadRotateRecordViewSet(ModelViewSet):

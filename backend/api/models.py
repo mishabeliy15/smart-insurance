@@ -118,3 +118,8 @@ class Company(BaseModel):
 
     def has_object_write_permission(self, request) -> bool:
         return request.user.is_superuser or request.user == self.owner
+
+    @staticmethod
+    @authenticated_users
+    def has_personal_price_permission(request):
+        return request.user == request.user.DRIVER

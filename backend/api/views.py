@@ -1,6 +1,6 @@
 from api.filters import CompanyFilterBackend
 from api.models import Company, User
-from api.serializers import CompanySerializer
+from api.serializers import CompanySerializer, DriverCompanySerializer
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.decorators import action
 from rest_framework.filters import SearchFilter
@@ -38,7 +38,10 @@ class CompanyViewSet(ModelViewSet):
         "created",
         "updated",
     )
-    search_fields = ("id", "name",)
+    search_fields = (
+        "id",
+        "name",
+    )
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
@@ -46,3 +49,12 @@ class CompanyViewSet(ModelViewSet):
     @action(detail=False, methods=("GET",), permission_classes=(IsAuthenticated,))
     def my(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
+
+    @action(detail=False, methods=("GET",), permission_classes=(IsAuthenticated,))
+    def personal_price(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        serializer = DriverCompanySerializer(
+            queryset, many=True, user=self.request.user
+        )
+        serializer_data = sorted(serializer.data, key=lambda k: k["own_price"])
+        return Response(serializer_data)

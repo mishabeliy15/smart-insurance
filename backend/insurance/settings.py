@@ -223,3 +223,7 @@ X_FRAME_OPTIONS = "SAMEORIGIN"
 # MyMappi
 
 MYMAPPI_API_KEY = env.str("MYMAPPI_API_KEY", default=None)
+
+
+# Interval for speed
+SPEED_RECORD_MAX_INTERVAL = env.int("SPEED_RECORD_MAX_INTERVAL", default=10)
