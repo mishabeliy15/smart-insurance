@@ -1,12 +1,11 @@
 import datetime
 import random
 import traceback
-import uuid
 from argparse import ArgumentParser
 from collections import namedtuple
 from time import sleep
 from typing import List
-
+from uuid import UUID
 
 import requests
 from requests import HTTPError
@@ -18,8 +17,8 @@ SENSOR_API_URL = "http://localhost/api/v0/speeds/"
 MAX_ACCELERATION = 10
 
 
-def validate_uuid(string):
-    uuid.UUID(string)
+def validate_uuid(string: str) -> str:
+    UUID(string)
     return string
 
 
