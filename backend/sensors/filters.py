@@ -13,7 +13,7 @@ class SensorFilterBackend(DRYPermissionFiltersBase):
         return queryset.filter(owner=request.user)
 
 
-class SpeedRecordFilterBackend(DRYPermissionFiltersBase):
+class SensorRecordFilterBackend(DRYPermissionFiltersBase):
     action_routing = True
 
     def filter_list_queryset(self, request, queryset, view):

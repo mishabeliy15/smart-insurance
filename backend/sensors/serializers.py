@@ -2,7 +2,7 @@ from drf_extra_fields.geo_fields import PointField
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 from rest_framework_gis.serializers import GeoModelSerializer
-from sensors.models import Sensor, SpeedRecord
+from sensors.models import HeadRotateRecord, Sensor, SpeedRecord
 
 
 class CreateSensorSerializer(serializers.ModelSerializer):
@@ -31,3 +31,18 @@ class SpeedRecordSerializer(GeoModelSerializer):
         model = SpeedRecord
         fields = "__all__"
         read_only_fields = ("over_speed",)
+
+
+class CreateHeadRotateRecordSerializer(serializers.ModelSerializer):
+    sensor = serializers.PrimaryKeyRelatedField(queryset=Sensor.objects.all())
+    angle = serializers.IntegerField(min_value=-360, max_value=360)
+
+    class Meta:
+        model = HeadRotateRecord
+        fields = "__all__"
+        read_only_fields = ("speed",)
+
+
+class DetailHeadRotateRecordSerializer(CreateHeadRotateRecordSerializer):
+    class Meta(CreateHeadRotateRecordSerializer.Meta):
+        depth = 1

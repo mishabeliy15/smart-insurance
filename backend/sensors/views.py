@@ -1,3 +1,5 @@
+import datetime
+
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.decorators import action
 from rest_framework.filters import SearchFilter
@@ -8,11 +10,13 @@ from rest_framework_gis.filters import (
     DistanceToPointOrderingFilter,
 )
 from sensors.clients import MyMappiRoadAPIClient
-from sensors.filters import SensorFilterBackend, SpeedRecordFilterBackend
-from sensors.models import Sensor, SpeedRecord
+from sensors.filters import SensorFilterBackend, SensorRecordFilterBackend
+from sensors.models import HeadRotateRecord, Sensor, SpeedRecord
 from sensors.serializers import (
+    CreateHeadRotateRecordSerializer,
     CreateSensorSerializer,
     DefaultSensorSerializer,
+    DetailHeadRotateRecordSerializer,
     SpeedRecordSerializer,
 )
 
@@ -51,7 +55,7 @@ class SpeedRecordViewSet(ModelViewSet):
     queryset = SpeedRecord.objects.select_related("sensor").all()
     serializer_class = SpeedRecordSerializer
     filter_backends = (
-        SpeedRecordFilterBackend,
+        SensorRecordFilterBackend,
         DistanceToPointFilter,
         DistanceToPointOrderingFilter,
         DjangoFilterBackend,
@@ -76,3 +80,41 @@ class SpeedRecordViewSet(ModelViewSet):
         max_speed = self.api_client.get_speed_limit(p["latitude"], p["longitude"])
         over_speed = self.request.data["speed"] / max_speed
         serializer.save(over_speed=over_speed)
+
+
+class HeadRotateRecordViewSet(ModelViewSet):
+    queryset = HeadRotateRecord.objects.select_related("sensor").all()
+    filter_backends = (
+        SensorRecordFilterBackend,
+        DistanceToPointFilter,
+        DistanceToPointOrderingFilter,
+        DjangoFilterBackend,
+        SearchFilter,
+    )
+    distance_ordering_filter_field = "speed__location"
+    distance_filter_field = "speed__location"
+    filterset_fields = (
+        "id",
+        "angle",
+        "sensor__owner",
+        "created",
+        "updated",
+    )
+    search_fields = ("id", "sensor__owner")
+
+    serializer_class = {
+        "create": CreateHeadRotateRecordSerializer,
+        "default": DetailHeadRotateRecordSerializer,
+    }
+
+    def get_serializer_class(self):
+        cls = self.serializer_class.get(self.action, self.serializer_class["default"])
+        return cls
+
+    def perform_create(self, serializer):
+        now_date = datetime.datetime.now(datetime.timezone.utc)
+        delta = datetime.timedelta(seconds=3)
+        if serializer.is_valid():
+            user = serializer.validated_data["sensor"].owner
+            speed = SpeedRecord.objects.near_date(user, now_date, delta)
+            serializer.save(speed=speed)

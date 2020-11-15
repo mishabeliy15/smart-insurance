@@ -8,7 +8,7 @@ router = APIRouter()
 
 
 @router.post("/landmark/")
-async def head_landmark(image_file: UploadFile = File(..., alias="image")):
+async def head_landmark_debug(image_file: UploadFile = File(..., alias="image")):
     image = await read_image_from_file(image_file)
     angle, res_image = get_horizontal_angle(image, True)
     _, res_image_file = cv2.imencode(".png", res_image)
@@ -17,7 +17,9 @@ async def head_landmark(image_file: UploadFile = File(..., alias="image")):
 
 
 @router.post("/angle/")
-async def head_horizontal_angle(image_file: UploadFile = File(..., alias="image")):
+async def head_horizontal_angle_debug(
+    image_file: UploadFile = File(..., alias="image")
+):
     image = await read_image_from_file(image_file)
     angle, res_image = get_horizontal_angle(image, False)
     return {"angle": angle}

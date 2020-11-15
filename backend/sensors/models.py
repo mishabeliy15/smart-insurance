@@ -1,10 +1,10 @@
-from django.core.validators import MinValueValidator, MaxValueValidator
-from dry_rest_permissions.generics import authenticated_users
-
 from api.models import User
 from commons.models import BaseModel
 from django.contrib.gis.db import models
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.utils.translation import gettext as _
+from dry_rest_permissions.generics import authenticated_users
+from sensors.managers import NearDateManger
 
 
 class Sensor(BaseModel):
@@ -52,7 +52,7 @@ class Sensor(BaseModel):
         return request.user.is_superuser or request.user == self.owner
 
 
-class SpeedRecord(BaseModel):
+class BaseSensorRecord(BaseModel):
     sensor = models.ForeignKey(
         Sensor,
         verbose_name=_("Sensor"),
@@ -60,18 +60,9 @@ class SpeedRecord(BaseModel):
         editable=False,
         db_index=True,
     )
-    speed = models.FloatField(
-        verbose_name=_("Speed"),
-        validators=(MinValueValidator(0), MaxValueValidator(400),),
-        editable=False,
-    )
-    over_speed = models.FloatField(
-        validators=(MinValueValidator(0),), verbose_name=_("Over speed")
-    )
 
-    location = models.PointField(
-        geography=True, editable=False, verbose_name=_("Location")
-    )
+    class Meta:
+        abstract = True
 
     @staticmethod
     @authenticated_users
@@ -93,3 +84,35 @@ class SpeedRecord(BaseModel):
     @authenticated_users
     def has_object_update_permission(self, request) -> bool:
         return False
+
+
+class SpeedRecord(BaseSensorRecord):
+    speed = models.FloatField(
+        verbose_name=_("Speed"),
+        validators=(MinValueValidator(0), MaxValueValidator(400),),
+        editable=False,
+    )
+    over_speed = models.FloatField(
+        validators=(MinValueValidator(0),), verbose_name=_("Over speed")
+    )
+    location = models.PointField(
+        geography=True, editable=False, verbose_name=_("Location")
+    )
+
+    objects = NearDateManger()
+
+
+class HeadRotateRecord(BaseSensorRecord):
+    speed = models.ForeignKey(
+        SpeedRecord,
+        on_delete=models.CASCADE,
+        editable=False,
+        db_index=True,
+        verbose_name=_("Speed"),
+    )
+    angle = models.SmallIntegerField(
+        verbose_name=_("Rotate head angle"),
+        validators=(MinValueValidator(-360), MaxValueValidator(360),),
+        db_index=True,
+        editable=False,
+    )
