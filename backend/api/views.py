@@ -1,3 +1,5 @@
+from dry_rest_permissions.generics import DRYPermissions
+
 from api.filters import CompanyFilterBackend
 from api.models import Company, User
 from api.serializers import CompanySerializer, DriverCompanySerializer
@@ -21,6 +23,7 @@ class CompanyViewSet(ModelViewSet):
     serializer_class = CompanySerializer
     parser_classes = (MultiPartParser, JSONParser)
     filter_backends = (CompanyFilterBackend, DjangoFilterBackend, SearchFilter)
+    permission_classes = (DRYPermissions,)
     filterset_fields = (
         "id",
         "name",
@@ -46,11 +49,11 @@ class CompanyViewSet(ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
 
-    @action(detail=False, methods=("GET",), permission_classes=(IsAuthenticated,))
+    @action(detail=False, methods=("GET",))
     def my(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
 
-    @action(detail=False, methods=("GET",), permission_classes=(IsAuthenticated,))
+    @action(detail=False, methods=("GET",))
     def personal_price(self, request, *args, **kwargs):
         queryset = self.get_queryset()
         serializer = DriverCompanySerializer(

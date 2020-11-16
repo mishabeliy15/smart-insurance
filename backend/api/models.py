@@ -62,6 +62,12 @@ class Company(BaseModel):
         verbose_name=_("Minimum speed to commit rotate head"),
     )
 
+    min_angle_commit_rotate_head = models.SmallIntegerField(
+        validators=(MinValueValidator(1), MaxValueValidator(90)),
+        verbose_name=_("Minimum angle to commit rotate head"),
+        default=40,
+    )
+
     percent_head_rotate_for_hour = models.FloatField(
         validators=(MinValueValidator(1), MaxValueValidator(100)),
         verbose_name=_("Percent head rotation for hour"),
@@ -116,10 +122,15 @@ class Company(BaseModel):
             request.user.is_superuser or request.user.user_type == request.user.BUSINESS
         )
 
+    @staticmethod
+    @authenticated_users
+    def has_my_permission(request) -> bool:
+        return request.user.user_type == request.user.DRIVER
+
     def has_object_write_permission(self, request) -> bool:
         return request.user.is_superuser or request.user == self.owner
 
     @staticmethod
     @authenticated_users
-    def has_personal_price_permission(request):
-        return request.user == request.user.DRIVER
+    def has_personal_price_permission(request) -> bool:
+        return request.user.user_type == request.user.DRIVER

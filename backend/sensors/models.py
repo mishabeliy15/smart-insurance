@@ -127,6 +127,9 @@ class SpeedRecord(BaseSensorRecord):
             avg_over = (prev_record["over_speed"] + record["over_speed"]) / 2
             total_seconds += interval
             total_over_speed += avg_over * interval
+            prev_record = record
+        if total_seconds == 0:
+            return 0
         avg_over_speed = total_over_speed / total_seconds
         return avg_over_speed
 
@@ -145,3 +148,14 @@ class HeadRotateRecord(BaseSensorRecord):
         db_index=True,
         editable=False,
     )
+
+    @classmethod
+    def get_user_records(cls, user):
+        queryset = (
+            cls.objects.select_related("sensor__owner")
+            .filter(sensor__owner=user)
+            .order_by("created")
+            .values("angle", "speed__speed", "created")
+        )
+        angle_record_list = list(queryset)
+        return angle_record_list
