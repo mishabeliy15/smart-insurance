@@ -2,7 +2,11 @@ from dry_rest_permissions.generics import DRYPermissions
 
 from api.filters import CompanyFilterBackend
 from api.models import Company, User
-from api.serializers import CompanySerializer, DriverCompanySerializer
+from api.serializers import (
+    CompanySerializer,
+    DriverCompanySerializer,
+    PotentialClientSerializer,
+)
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.decorators import action
 from rest_framework.filters import SearchFilter
@@ -58,5 +62,13 @@ class CompanyViewSet(ModelViewSet):
         serializer = DriverCompanySerializer(
             queryset, many=True, user=self.request.user
         )
+        serializer_data = sorted(serializer.data, key=lambda k: k["own_price"])
+        return Response(serializer_data)
+
+    @action(detail=True, methods=("GET",))
+    def potential_clients(self, request, *args, **kwargs):
+        company = self.get_object()
+        drivers = User.objects.filter(user_type=User.DRIVER)
+        serializer = PotentialClientSerializer(drivers, many=True, company=company)
         serializer_data = sorted(serializer.data, key=lambda k: k["own_price"])
         return Response(serializer_data)

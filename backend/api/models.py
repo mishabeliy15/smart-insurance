@@ -125,7 +125,7 @@ class Company(BaseModel):
     @staticmethod
     @authenticated_users
     def has_my_permission(request) -> bool:
-        return request.user.user_type == request.user.DRIVER
+        return request.user.user_type == request.user.BUSINESS
 
     def has_object_write_permission(self, request) -> bool:
         return request.user.is_superuser or request.user == self.owner
@@ -133,4 +133,13 @@ class Company(BaseModel):
     @staticmethod
     @authenticated_users
     def has_personal_price_permission(request) -> bool:
-        return request.user.user_type == request.user.DRIVER
+        return (
+            request.user.is_superuser or request.user.user_type == request.user.DRIVER
+        )
+
+    @staticmethod
+    @authenticated_users
+    def has_potential_clients_permission(request) -> bool:
+        return (
+            request.user.is_superuser or request.user.user_type == request.user.BUSINESS
+        )
