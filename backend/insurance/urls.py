@@ -28,6 +28,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/v0/", include("api.urls")),
     path("api/v0/", include("sensors.urls")),
+    path("api/v0/", include("contracts.urls")),
     path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
     # API DOCS UI:
     path(

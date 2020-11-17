@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     "drf_extra_fields",
     "api.apps.ApiConfig",
     "sensors.apps.SensorsConfig",
+    "contracts.apps.ContractsConfig",
 ]
 
 MIDDLEWARE = [

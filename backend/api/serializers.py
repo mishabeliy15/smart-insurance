@@ -3,7 +3,6 @@ import datetime
 from api.models import Company, User
 from django.utils.translation import gettext as _
 from djoser.serializers import UserCreateSerializer
-from dry_rest_permissions.generics import DRYPermissionsField
 from insurance.settings import HEAD_ANGLE_RECORD_MAX_INTERVAL
 from rest_framework.exceptions import ValidationError
 from rest_framework.serializers import ModelSerializer, SerializerMethodField
@@ -32,8 +31,6 @@ class CurrentUserSerializer(ModelSerializer):
 
 
 class CompanySerializer(ModelSerializer):
-    permissions = DRYPermissionsField()
-
     class Meta:
         model = Company
         exclude = ("owner",)
