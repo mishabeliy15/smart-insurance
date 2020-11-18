@@ -137,3 +137,7 @@ class Offer(BaseModel):
     @authenticated_users
     def has_object_accept_permission(self, request) -> bool:
         return request.user.is_superuser or request.user == self.customer
+
+    @authenticated_users
+    def has_object_deny_permission(self, request) -> bool:
+        return request.user.is_superuser or request.user == self.customer

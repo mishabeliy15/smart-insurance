@@ -16,4 +16,9 @@ class ContractFilterBackend(DRYPermissionFiltersBase):
 
 
 class OfferFilterBackend(ContractFilterBackend):
-    pass
+    def filter_deny_queryset(self, request, queryset, view):
+        if request.user.DRIVER:
+            queryset = queryset.filter(customer=request.user)
+        else:
+            queryset = queryset.filter(company__owner=request.user)
+        return queryset

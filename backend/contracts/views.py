@@ -82,3 +82,10 @@ class OfferViewSet(ModelViewSet):
         contract = offer.accept()
         data = ContractSerializer(contract).data
         return Response(data=data)
+
+    @action(detail=True, methods=("POST",))
+    def deny(self, request, pk=None):
+        offer = self.get_object()
+        offer.status = offer.status = offer.DENIED
+        data = OfferSerializer(offer).data
+        return Response(data=data)
