@@ -2,6 +2,7 @@ import AuthService from "../services/auth.service";
 import {
   LOGIN_FAIL,
   LOGIN_SUCCESS,
+  LOGOUT,
   REGISTER_FAIL,
   REGISTER_SUCCESS,
   SET_MESSAGE,
@@ -36,8 +37,8 @@ export const login = (username, password) => (dispatch) => {
     });
 };
 
-export const register = (username, email, password, userType) => (dispatch) => {
-  return AuthService.register(username, password, userType).then(
+export const register = ({ userData }) => (dispatch) => {
+  return AuthService.register(userData).then(
     (response) => {
       dispatch({
         type: REGISTER_SUCCESS,
@@ -45,7 +46,6 @@ export const register = (username, email, password, userType) => (dispatch) => {
 
       dispatch({
         type: SET_MESSAGE,
-        payload: response.data.message,
       });
 
       return Promise.resolve();
@@ -68,4 +68,12 @@ export const register = (username, email, password, userType) => (dispatch) => {
       return Promise.reject();
     }
   );
+};
+
+export const logout = () => (dispatch) => {
+  AuthService.logout();
+
+  dispatch({
+    type: LOGOUT,
+  });
 };

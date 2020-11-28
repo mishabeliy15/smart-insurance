@@ -1,0 +1,19 @@
+{
+  "Language": "Мова",
+  "Sign up": "Зареєструватися",
+  "Sign in": "Увійти",
+  "First Name": "Ім'я",
+  "Last Name": "Прізвище",
+  "Username": "Ім'я користувача",
+  "Password": "Пароль",
+  "Driver": "Водій",
+  "Business": "Бізнес",
+  "Already have an account?": "Уже є аккаунт?",
+  "User type": "Тип користувача",
+  "English": "Англійська",
+  "Russian": "Російський",
+  "Ukrainian": "Український",
+  "Don't have an account?": "Не маєте облікового запису?",
+  "Network Error": "Помилка мережі",
+  "No active account found with the given credentials": "Не знайдено жодного активного облікового запису з вказаними обліковими даними"
+}

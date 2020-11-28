@@ -1,7 +1,7 @@
 import axios from "axios";
-import history from "./history";
+// import history from "./history";
 
-const API_URL = process.env.API_URL || "http://localhost:8000/api/v0/";
+const API_URL = process.env.API_URL || "http://localhost/api/v0/";
 
 const api = axios.create({ baseURL: API_URL });
 
@@ -12,6 +12,10 @@ api.interceptors.request.use(
     const token = localStorage.getItem("access");
     if (token) {
       config.headers["Authorization"] = "Bearer " + token;
+    }
+    const lang = localStorage.getItem("i18nextLng");
+    if (lang) {
+      config.headers["Accept-Language"] = lang;
     }
     config.headers["Content-Type"] = "application/json";
     return config;

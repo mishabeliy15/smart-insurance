@@ -1,0 +1,19 @@
+{
+  "Language": "Язык",
+  "Sign up": "Зарегистрироваться",
+  "Sign in": "Войти",
+  "First Name": "Имя",
+  "Last Name": "Фамилия",
+  "Username": "Имя пользователя",
+  "Password": "Пароль",
+  "Driver": "Водитель",
+  "Business": "Бизнес",
+  "Already have an account?": "Уже есть аккаунт?",
+  "User type": "Тип пользователя",
+  "English": "Английский",
+  "Russian": "Русский",
+  "Ukrainian": "Украинский",
+  "Don't have an account?": "Нет учетной записи?",
+  "Network Error": "Ошибка сети",
+  "No active account found with the given credentials": "Активная учетная запись с указанными учетными данными не найдена"
+}

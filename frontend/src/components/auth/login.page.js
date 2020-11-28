@@ -15,39 +15,9 @@ import { Link } from "react-router-dom";
 import { login } from "../../actions/auth";
 import Alert from "react-bootstrap/Alert";
 import CopyrightComponent from "./copyright.component";
-
-export const styles = (theme) => ({
-  root: {
-    height: "100vh",
-  },
-  image: {
-    backgroundImage: "url(/images/tesla.jpg)",
-    backgroundRepeat: "no-repeat",
-    backgroundColor:
-      theme.palette.type === "light"
-        ? theme.palette.grey[50]
-        : theme.palette.grey[900],
-    backgroundSize: "cover",
-    backgroundPosition: "center",
-  },
-  paper: {
-    margin: theme.spacing(8, 4),
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-  },
-  form: {
-    width: "100%", // Fix IE 11 issue.
-    marginTop: theme.spacing(1),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
-});
+import styles from "./style";
+import { Trans, withNamespaces } from "react-i18next";
+import ChangeLanguageComponent from "../common/change.lang.component";
 
 class LoginPage extends Component {
   constructor(props) {
@@ -77,7 +47,7 @@ class LoginPage extends Component {
   }
 
   render() {
-    const { classes, message } = this.props;
+    const { classes, message, t } = this.props;
     return (
       <div>
         <Grid container component="main" className={classes.root}>
@@ -97,7 +67,7 @@ class LoginPage extends Component {
                 <LockOutlinedIcon />
               </Avatar>
               <Typography component="h1" variant="h5">
-                Sign in
+                <Trans>Sign in</Trans>
               </Typography>
               <form className={classes.form} onSubmit={this.handleSubmit}>
                 <TextField
@@ -108,9 +78,9 @@ class LoginPage extends Component {
                   required
                   fullWidth
                   id="username"
-                  label="Username"
+                  label={t("Username")}
                   name="username"
-                  autoComplete="username"
+                  autoComplete={t("Username")}
                   autoFocus
                 />
                 <TextField
@@ -121,10 +91,10 @@ class LoginPage extends Component {
                   required
                   fullWidth
                   name="password"
-                  label="Password"
+                  label={t("Password")}
                   type="password"
                   id="password"
-                  autoComplete="current-password"
+                  autoComplete={t("Password")}
                 />
                 {/*<FormControlLabel*/}
                 {/*  control={<Checkbox value="remember" color="primary" />}*/}
@@ -132,9 +102,12 @@ class LoginPage extends Component {
                 {/*/>*/}
                 {message && (
                   <Alert key="error" variant="danger">
-                    {message}
+                    <Trans>{message}</Trans>
                   </Alert>
                 )}
+                <Grid item xs={12} sm={6}>
+                  <ChangeLanguageComponent />
+                </Grid>
                 <Button
                   type="submit"
                   fullWidth
@@ -142,17 +115,13 @@ class LoginPage extends Component {
                   color="primary"
                   className={classes.submit}
                 >
-                  Sign In
+                  <Trans>Sign in</Trans>
                 </Button>
                 <Grid container>
-                  <Grid item xs>
-                    <Link href="#" variant="body2">
-                      Forgot password?
-                    </Link>
-                  </Grid>
                   <Grid item>
                     <Link to="/register" variant="body2">
-                      {"Don't have an account? Sign Up"}
+                      <Trans>Don't have an account?</Trans>
+                      <Trans>Sign up</Trans>
                     </Link>
                   </Grid>
                 </Grid>
@@ -181,6 +150,6 @@ function mapStateToProps(state) {
   };
 }
 
-const styledComponent = withStyles(styles)(LoginPage);
+const styledComponent = withNamespaces()(withStyles(styles)(LoginPage));
 
 export default connect(mapStateToProps)(styledComponent);

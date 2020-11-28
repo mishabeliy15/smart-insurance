@@ -1,6 +1,7 @@
 import axios from "../helpers/axios";
 
 class AuthService {
+  REGISTER_API_URL = "/auth/users/";
   LOGIN_API_URL = "/auth/jwt/create/";
   MY_API_URL = "/auth/users/me/";
 
@@ -21,7 +22,17 @@ class AuthService {
     return axios.get(this.MY_API_URL).then((response) => response.data);
   }
 
-  register(username, password, user_type) {}
+  register(userData) {
+    return axios.post(this.REGISTER_API_URL, userData).then((response) => {
+      return response.data;
+    });
+  }
+
+  logout() {
+    localStorage.removeItem("user");
+    localStorage.removeItem("access");
+    localStorage.removeItem("refresh");
+  }
 }
 
 export default new AuthService();
