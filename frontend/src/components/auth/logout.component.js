@@ -6,8 +6,9 @@ import { connect } from "react-redux";
 
 class LogOutComponent extends Component {
   onClickHandler = (event) => {
-    const { dispatch } = this.props;
+    const { dispatch, history } = this.props;
     dispatch(logout());
+    history.push("/login");
   };
 
   render() {
