@@ -18,6 +18,7 @@ import CopyrightComponent from "./copyright.component";
 import styles from "./style";
 import { Trans, withNamespaces } from "react-i18next";
 import ChangeLanguageComponent from "../common/change.lang.component";
+import { CLEAR_MESSAGE } from "../../actions/types";
 
 class LoginPage extends Component {
   constructor(props) {
@@ -25,6 +26,8 @@ class LoginPage extends Component {
     this.state = { username: "", password: "" };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    const { dispatch } = this.props;
+    dispatch({ type: CLEAR_MESSAGE });
   }
 
   handleInputChange(event) {

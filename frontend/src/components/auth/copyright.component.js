@@ -7,7 +7,7 @@ function CopyrightComponent() {
     <Typography variant="body2" color="textSecondary" align="center">
       {"Copyright © "}
       <Link color="inherit" href="#">
-        Smart Insurance by Mykhailo Bilyi
+        AI-Insurance
       </Link>{" "}
       {new Date().getFullYear()}
       {"."}

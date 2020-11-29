@@ -1,5 +1,6 @@
 import AuthService from "../services/auth.service";
 import {
+  CLEAR_MESSAGE,
   LOGIN_FAIL,
   LOGIN_SUCCESS,
   LOGOUT,
@@ -37,7 +38,7 @@ export const login = (username, password) => (dispatch) => {
     });
 };
 
-export const register = ({ userData }) => (dispatch) => {
+export const register = (userData) => (dispatch) => {
   return AuthService.register(userData).then(
     (response) => {
       dispatch({
@@ -45,16 +46,21 @@ export const register = ({ userData }) => (dispatch) => {
       });
 
       dispatch({
-        type: SET_MESSAGE,
+        type: CLEAR_MESSAGE,
       });
 
       return Promise.resolve();
     },
     (error) => {
-      const message =
-        (error.response && error.response.data && error.response.data.detail) ||
-        error.message ||
-        error.toString();
+      let message =
+        error.response && error.response.data && error.response.data.detail;
+      if (message === undefined && error.response && error.response.data) {
+        message = "";
+        for (let key in error.response.data) {
+          message += error.response.data[key].join("\n");
+        }
+      }
+      if (!message) message = error.toString();
 
       dispatch({
         type: REGISTER_FAIL,

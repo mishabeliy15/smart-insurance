@@ -22,6 +22,7 @@ import { login, register } from "../../actions/auth";
 import ChangeLanguageComponent from "../common/change.lang.component";
 import InputLabel from "@material-ui/core/InputLabel";
 import FormControl from "@material-ui/core/FormControl";
+import { CLEAR_MESSAGE } from "../../actions/types";
 
 class RegisterPage extends Component {
   constructor(props) {
@@ -35,6 +36,8 @@ class RegisterPage extends Component {
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    const { dispatch } = this.props;
+    dispatch({ type: CLEAR_MESSAGE });
   }
 
   handleInputChange(event) {

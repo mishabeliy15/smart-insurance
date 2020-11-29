@@ -52,6 +52,7 @@ class MainComponent extends Component {
     const { classes, theme, t } = this.props;
     const userType = this.props.user.user_type;
     const navigationItems = userTypeNavigationListItem[userType];
+    const pathname = history.location.pathname;
 
     return (
       <div className={classes.root}>
@@ -103,7 +104,13 @@ class MainComponent extends Component {
           <Divider />
           <List>
             {navigationItems.map((item) => (
-              <ListItem button key={item.name} component={Link} to={item.url}>
+              <ListItem
+                selected={item.url === pathname}
+                button
+                key={item.name}
+                component={Link}
+                to={item.url}
+              >
                 <ListItemIcon>{item.icon}</ListItemIcon>
                 <ListItemText primary={t(item.name)} />
               </ListItem>

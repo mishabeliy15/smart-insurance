@@ -1,5 +1,5 @@
 import axios from "axios";
-// import history from "./history";
+import history from "./history";
 
 const API_URL = process.env.API_URL || "http://localhost/api/v0/";
 
@@ -27,40 +27,42 @@ api.interceptors.request.use(
 
 //Add a response interceptor
 
-// services.interceptors.response.use(
-//   (response) => {
-//     return response;
-//   },
-//   function (error) {
-//     const originalRequest = error.config;
-//
-//     if (
-//       error.response.status === 401 &&
-//       originalRequest.url === `${API_URL}auth/jwt/refresh/`
-//     ) {
-//       history.push("/login");
-//       return Promise.reject(error);
-//     }
-//
-//     if (error.response.status === 401 && !originalRequest._retry) {
-//       originalRequest._retry = true;
-//       const refreshToken = localStorage.getItem("refresh");
-//       return services
-//         .post("auth/jwt/refresh/", {
-//           refresh: refreshToken,
-//         })
-//         .then((res) => {
-//           if (res.status in [200, 201]) {
-//             localStorage.setToken("access", res.data.access);
-//             localStorage.setToken("refresh", res.data.refresh);
-//             services.defaults.headers.common["Authorization"] =
-//               "Bearer " + localStorage.getItem("access");
-//             return services(originalRequest);
-//           }
-//         });
-//     }
-//     return Promise.reject(error);
-//   }
-// );
+api.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  (error) => {
+    const originalRequest = error.config;
+
+    if (
+      error.response.status === 401 &&
+      originalRequest.url === `${API_URL}auth/jwt/refresh/`
+    ) {
+      history.push("/login");
+      return Promise.reject(error);
+    }
+
+    if (originalRequest.url.includes("/auth/")) return Promise.reject(error);
+
+    if (error.response.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+      const refreshToken = localStorage.getItem("refresh");
+      return api
+        .post("auth/jwt/refresh/", {
+          refresh: refreshToken,
+        })
+        .then((res) => {
+          if (res.status === 200) {
+            localStorage.setItem("access", res.data.access);
+            // localStorage.setItem("refresh", res.data.refresh);
+            api.defaults.headers.common["Authorization"] =
+              "Bearer " + localStorage.getItem("access");
+            return api(originalRequest);
+          }
+        });
+    }
+    return Promise.reject(error);
+  }
+);
 
 export default api;

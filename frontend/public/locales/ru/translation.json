@@ -18,5 +18,7 @@
   "No active account found with the given credentials": "Активная учетная запись с указанными учетными данными не найдена",
   "Log out": "Выйты",
   "Sensors": "Датчики",
-  "Dashboard": "Дашбоард"
+  "Dashboard": "Дашбоард",
+  "Sensor type": "Тип датчика",
+  "Created": "Создан"
 }
