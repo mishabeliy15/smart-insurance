@@ -6,14 +6,14 @@ import { connect } from "react-redux";
 
 class LogOutComponent extends Component {
   onClickHandler = (event) => {
-    const { dispatch, history } = this.props;
+    const { dispatch } = this.props;
     dispatch(logout());
-    history.push("/login");
+    // history.push("/login");
   };
 
   render() {
     return (
-      <Button onClick={this.onClickHandler}>
+      <Button onClick={this.onClickHandler} {...this.props}>
         <Trans>Log out</Trans>
       </Button>
     );

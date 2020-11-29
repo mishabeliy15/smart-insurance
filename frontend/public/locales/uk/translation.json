@@ -15,5 +15,8 @@
   "Ukrainian": "Український",
   "Don't have an account?": "Не маєте облікового запису?",
   "Network Error": "Помилка мережі",
-  "No active account found with the given credentials": "Не знайдено жодного активного облікового запису з вказаними обліковими даними"
+  "No active account found with the given credentials": "Не знайдено жодного активного облікового запису з вказаними обліковими даними",
+  "Log out": "Вийти",
+  "Sensors": "Датчики",
+  "Dashboard": "Дашбоард"
 }

@@ -39,7 +39,7 @@ class ChangeLanguageComponent extends Component {
 
   render() {
     const { classes } = this.props;
-    console.log(this.props);
+
     return (
       <FormControl className={classes.formControl}>
         <InputLabel id="lang-select-label">

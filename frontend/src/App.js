@@ -27,7 +27,6 @@ class App extends Component {
             authed={this.props.isLoggedIn}
           />
           <PrivateRoute
-            exact
             path="/"
             component={MainComponent}
             authed={this.props.isLoggedIn}
