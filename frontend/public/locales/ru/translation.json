@@ -20,5 +20,9 @@
   "Sensors": "Датчики",
   "Dashboard": "Дашбоард",
   "Sensor type": "Тип датчика",
-  "Created": "Создан"
+  "Created": "Создан",
+  "Add": "Добавить",
+  "sensor": "датчик",
+  "Camera": "Камера",
+  "Movement": "Передвижения"
 }

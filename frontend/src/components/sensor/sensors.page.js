@@ -3,7 +3,9 @@ import React, { Component } from "react";
 import { DataGrid } from "@material-ui/data-grid";
 import { connect } from "react-redux";
 import { getMySensors } from "../../actions/sensor";
-import { withNamespaces } from "react-i18next";
+import { Trans, withNamespaces } from "react-i18next";
+import Button from "@material-ui/core/Button";
+import history from "../../helpers/history";
 
 class SensorComponent extends Component {
   componentDidMount() {
@@ -45,14 +47,23 @@ class SensorComponent extends Component {
   render() {
     const rows = this.getRows();
     return (
-      <div style={{ height: 400, width: "100%" }}>
-        <DataGrid
-          rows={rows}
-          columns={this.getColumns()}
-          pageSize={Math.min(5, rows.length)}
-          // checkboxSelection
-          loading={this.props.isLoading}
-        />
+      <div>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => history.push("/sensors/add")}
+        >
+          <Trans>Add</Trans> <Trans>sensor</Trans>
+        </Button>
+        <div style={{ height: 400, width: "100%" }}>
+          <DataGrid
+            rows={rows}
+            columns={this.getColumns()}
+            pageSize={Math.min(5, rows.length)}
+            // checkboxSelection
+            loading={this.props.isLoading}
+          />
+        </div>
       </div>
     );
   }

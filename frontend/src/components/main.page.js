@@ -25,7 +25,8 @@ import { Link, Route } from "react-router-dom";
 import history from "../helpers/history";
 import useStyles from "./main.page.style";
 import BuildIcon from "@material-ui/icons/Build";
-import SensorComponent from "./sensor/sensors.page";
+import SensorPage from "./sensor/sensors.page";
+import AddSensorPage from "./sensor/add-sensor-page";
 
 const userTypeNavigationListItem = {
   1: [
@@ -125,7 +126,10 @@ class MainComponent extends Component {
                 Dashboard
               </Route>
               <Route exact path="/sensors">
-                <SensorComponent />
+                <SensorPage />
+              </Route>
+              <Route exact path="/sensors/add">
+                <AddSensorPage />
               </Route>
             </Switch>
           </Router>
