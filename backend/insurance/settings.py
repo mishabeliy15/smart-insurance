@@ -61,6 +61,8 @@ INSTALLED_APPS = [
     "api.apps.ApiConfig",
     "sensors.apps.SensorsConfig",
     "contracts.apps.ContractsConfig",
+    "dbbackup",
+    "django_cron",
 ]
 
 MIDDLEWARE = [
@@ -230,3 +232,17 @@ MYMAPPI_API_KEY = env.str("MYMAPPI_API_KEY", default=None)
 
 SPEED_RECORD_MAX_INTERVAL = env.int("SPEED_RECORD_MAX_INTERVAL", default=10)
 HEAD_ANGLE_RECORD_MAX_INTERVAL = env.int("HEAD_ANGLE_RECORD_MAX_INTERVAL", default=3)
+
+
+# BACKUPS
+
+DBBACKUP_STORAGE = "django.core.files.storage.FileSystemStorage"
+DBBACKUP_STORAGE_OPTIONS = {"location": "/usr/src/app/backup/"}
+
+DBBACKUP_CONNECTOR_MAPPING = {
+    "django.contrib.gis.db.backends.postgis": "dbbackup.db.postgresql.PgDumpGisConnector",
+}
+
+CRON_CLASSES = [
+    "cron.backup.BackupJob",
+]
