@@ -51,6 +51,7 @@ services:
       - ./nginx/conf/nginx.conf:/etc/nginx/conf.d/default.conf
       - ./nginx/conf/proxy_backend.conf:/etc/nginx/proxy_backend.conf
       - ./nginx/conf/proxy_ai.conf:/etc/nginx/proxy_ai.conf
+      - ./nginx/conf/proxy_frontend.conf:/etc/nginx/proxy_frontend.conf
       - ./nginx/conf/proxy_params.conf:/etc/nginx/proxy_params.conf
       - ./nginx/logs/:/var/log/nginx/
       - ./backend/static/:/data/static/
@@ -62,6 +63,18 @@ services:
     depends_on:
       - insurance-backend
       - insurance-ai
+    networks:
+      - insurance_default
+
+  insurance-frontend:
+    container_name: insurance-frontend
+    build: ./frontend/
+    env_file:
+      - ./frontend/.env.docker
+    ports:
+      - 3000:3000
+    volumes:
+      - ./frontend/:/app/
     networks:
       - insurance_default
 
