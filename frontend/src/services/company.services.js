@@ -2,6 +2,7 @@ import axios from "../helpers/axios";
 
 class CompanyService {
   BASE_API_URL = "companies/";
+  MY_COMPANY_API_URL = `${this.BASE_API_URL}my/`;
 
   createCompany(inputData) {
     let data = new FormData();
@@ -15,6 +16,12 @@ class CompanyService {
       data: data,
     };
     return axios(config).then((response) => response.data);
+  }
+
+  myCompanies() {
+    return axios(this.MY_COMPANY_API_URL).then(
+      (response) => response.data.results
+    );
   }
 }
 

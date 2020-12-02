@@ -29,6 +29,8 @@ import SensorPage from "./sensor/sensors.page";
 import AddSensorPage from "./sensor/add-sensor-page";
 import CreateCompanyPage from "./companies/create-company.page";
 import AddIcon from "@material-ui/icons/Add";
+import AccountBalanceIcon from "@material-ui/icons/AccountBalance";
+import MyCompaniesPage from "./companies/my-companies.page";
 
 const userTypeNavigationListItem = {
   1: [
@@ -36,6 +38,11 @@ const userTypeNavigationListItem = {
     { name: "Sensors", icon: <BuildIcon />, url: "/sensors" },
   ],
   2: [
+    {
+      name: "My companies",
+      icon: <AccountBalanceIcon />,
+      url: "/companies",
+    },
     {
       name: "Add company",
       icon: <AddIcon />,
@@ -59,6 +66,9 @@ const userTypeSwitchRoutes = {
   2: (
     <Switch>
       <Route exact path="/"></Route>
+      <Route exact path="/companies">
+        <MyCompaniesPage />
+      </Route>
       <Route exact path="/companies/add">
         <CreateCompanyPage />
       </Route>

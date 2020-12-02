@@ -4,6 +4,7 @@ import { routerReducer } from "react-router-redux";
 import message from "./message";
 import common from "./common";
 import sensors from "./sensor";
+import company from "./company";
 
 export default combineReducers({
   routing: routerReducer,
@@ -11,4 +12,5 @@ export default combineReducers({
   message,
   common,
   sensors,
+  company,
 });
