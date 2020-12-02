@@ -27,5 +27,12 @@
   "Movement": "Передвижения",
   "Min price": "Минимальная цена",
   "Base price": "Базовая цена",
-  "Max price": "Максимальная цена"
+  "Max price": "Максимальная цена",
+  "Percent over speeding": "Допустимое превышение скорости (%)",
+  "Min speed to commit rotate head": "Минимальная скорость для фиксации поворота головы",
+  "Percent head rotate for hour": "Поворот головы в час (%)",
+  "Max speed discount": "Максимальная скидка за скоростной режим",
+  "Max speed penalty": "Максимальная пеня за превышения скорости",
+  "Max rotate discount": "Максимальная скидка за не поворачивание головы",
+  "Max rotate head penalty": "Максимальная пеня за поворот головы"
 }

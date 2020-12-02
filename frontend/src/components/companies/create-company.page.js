@@ -88,6 +88,7 @@ class CreateCompanyPage extends Component {
                 value={this.state.name}
                 onChange={this.handleInputChange}
                 name="name"
+                fullWidth={true}
                 autoComplete={t("Company name")}
                 helperText={this.props.message && this.props.message.name}
                 error={this.props.message && this.props.message.name}
@@ -97,6 +98,7 @@ class CreateCompanyPage extends Component {
               <TextField
                 required
                 id="company-min_price"
+                fullWidth={true}
                 label={t("Min price")}
                 onChange={this.handleInputChange}
                 value={this.state.min_price}
@@ -110,6 +112,7 @@ class CreateCompanyPage extends Component {
             <Grid item xs={4}>
               <TextField
                 required
+                fullWidth={true}
                 id="company-base_price"
                 label={t("Base price")}
                 value={this.state.base_price}
@@ -124,6 +127,7 @@ class CreateCompanyPage extends Component {
             <Grid item xs={4}>
               <TextField
                 required
+                fullWidth={true}
                 id="company-max_price"
                 label={t("Max price")}
                 onChange={this.handleInputChange}
@@ -138,6 +142,7 @@ class CreateCompanyPage extends Component {
             <Grid item xs={4}>
               <TextField
                 required
+                fullWidth={true}
                 id="percent_over_speeding"
                 label={t("Percent over speeding")}
                 onChange={this.handleInputChange}
@@ -156,6 +161,7 @@ class CreateCompanyPage extends Component {
             </Grid>
             <Grid item xs={4}>
               <TextField
+                fullWidth={true}
                 required
                 id="min_speed_commit_rotate_head"
                 label={t("Min speed to commit rotate head")}
@@ -178,6 +184,7 @@ class CreateCompanyPage extends Component {
             <Grid item xs={4}>
               <TextField
                 required
+                fullWidth={true}
                 id="percent_head_rotate_for_hour"
                 label={t("Percent head rotate for hour")}
                 onChange={this.handleInputChange}
@@ -199,6 +206,7 @@ class CreateCompanyPage extends Component {
             <Grid item xs={6}>
               <TextField
                 required
+                fullWidth={true}
                 id="max_speed_discount"
                 label={t("Max speed discount")}
                 onChange={this.handleInputChange}
@@ -218,6 +226,7 @@ class CreateCompanyPage extends Component {
             <Grid item xs={6}>
               <TextField
                 required
+                fullWidth={true}
                 id="max_speed_penalty"
                 label={t("Max speed penalty")}
                 onChange={this.handleInputChange}
@@ -237,6 +246,7 @@ class CreateCompanyPage extends Component {
             <Grid item xs={6}>
               <TextField
                 required
+                fullWidth={true}
                 id="max_rotate_head_discount"
                 label={t("Max rotate discount")}
                 onChange={this.handleInputChange}
@@ -258,6 +268,7 @@ class CreateCompanyPage extends Component {
             <Grid item xs={6}>
               <TextField
                 required
+                fullWidth={true}
                 id="max_rotate_head_penalty"
                 label={t("Max rotate head penalty")}
                 onChange={this.handleInputChange}
