@@ -27,12 +27,43 @@ import useStyles from "./main.page.style";
 import BuildIcon from "@material-ui/icons/Build";
 import SensorPage from "./sensor/sensors.page";
 import AddSensorPage from "./sensor/add-sensor-page";
+import CreateCompanyPage from "./companies/create-company.page";
+import AddIcon from "@material-ui/icons/Add";
 
 const userTypeNavigationListItem = {
   1: [
     { name: "Dashboard", icon: <DashboardIcon />, url: "/" },
     { name: "Sensors", icon: <BuildIcon />, url: "/sensors" },
   ],
+  2: [
+    {
+      name: "Add company",
+      icon: <AddIcon />,
+      url: "/companies/add",
+    },
+  ],
+};
+
+const userTypeSwitchRoutes = {
+  1: (
+    <Switch>
+      <Route exact path="/"></Route>
+      <Route exact path="/sensors">
+        <SensorPage />
+      </Route>
+      <Route exact path="/sensors/add">
+        <AddSensorPage />
+      </Route>
+    </Switch>
+  ),
+  2: (
+    <Switch>
+      <Route exact path="/"></Route>
+      <Route exact path="/companies/add">
+        <CreateCompanyPage />
+      </Route>
+    </Switch>
+  ),
 };
 
 class MainComponent extends Component {
@@ -120,19 +151,7 @@ class MainComponent extends Component {
         </Drawer>
         <main className={classes.content}>
           <div className={classes.toolbar} />
-          <Router history={history}>
-            <Switch>
-              <Route exact path="/">
-                Dashboard
-              </Route>
-              <Route exact path="/sensors">
-                <SensorPage />
-              </Route>
-              <Route exact path="/sensors/add">
-                <AddSensorPage />
-              </Route>
-            </Switch>
-          </Router>
+          <Router history={history}>{userTypeSwitchRoutes[userType]}</Router>
         </main>
       </div>
     );
