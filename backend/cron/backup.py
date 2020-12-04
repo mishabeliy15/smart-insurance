@@ -8,4 +8,4 @@ class BackupJob(CronJobBase):
     code = "insurance.Backup"
 
     def do(self):
-        management.call_command("dbbackup")
+        management.call_command("dbbackup", "--noinput")

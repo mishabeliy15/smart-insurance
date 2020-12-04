@@ -15,6 +15,8 @@ class UserAdmin(BaseUserAdmin):
         "user_type",
     )
 
+    readonly_fields = (*BaseUserAdmin.readonly_fields, "user_type",)
+
     fieldsets = (*BaseUserAdmin.fieldsets, (None, {"fields": ("user_type",)}))
 
 

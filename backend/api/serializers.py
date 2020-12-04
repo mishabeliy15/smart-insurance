@@ -3,10 +3,13 @@ from commons.personal_prices import PersonalPrices
 from django.utils.translation import gettext as _
 from djoser.serializers import UserCreateSerializer
 from rest_framework.exceptions import ValidationError
-from rest_framework.serializers import ModelSerializer, SerializerMethodField
+from rest_framework.fields import ChoiceField
+from rest_framework.serializers import ModelSerializer
 
 
 class MyUserCreateSerializer(UserCreateSerializer):
+    user_type = ChoiceField(User.USER_TYPE_CHOICES)
+
     class Meta(UserCreateSerializer.Meta):
         fields = (
             *UserCreateSerializer.Meta.fields,

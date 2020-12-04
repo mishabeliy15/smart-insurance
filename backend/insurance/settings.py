@@ -222,6 +222,8 @@ AWS_S3_MEDIA_BUCKET_NAME = env.str(
 # JET
 
 X_FRAME_OPTIONS = "SAMEORIGIN"
+JET_INDEX_DASHBOARD = "insurance.dashboard.CustomIndexDashboard"
+
 
 # MyMappi
 
@@ -240,7 +242,7 @@ DBBACKUP_STORAGE = "django.core.files.storage.FileSystemStorage"
 DBBACKUP_STORAGE_OPTIONS = {"location": "/usr/src/app/backup/"}
 
 DBBACKUP_CONNECTOR_MAPPING = {
-    "django.contrib.gis.db.backends.postgis": "dbbackup.db.postgresql.PgDumpGisConnector",
+    "django.contrib.gis.db.backends.postgis": "dbbackup.db.postgresql.PgDumpBinaryConnector",
 }
 
 CRON_CLASSES = [

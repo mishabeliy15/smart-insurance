@@ -1,4 +1,4 @@
-from api.views import CompanyViewSet, MetaUserAPIView
+from api.views import CompanyViewSet, MetaUserAPIView, BackupView, RestoreView
 from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
@@ -12,4 +12,6 @@ urlpatterns = [
     path(r"auth/", include("djoser.urls")),
     path(r"auth/", include("djoser.urls.jwt")),
     path("", include(router.urls)),
+    path("backup/", BackupView.as_view(), name="backup"),
+    path("restore/", RestoreView.as_view(), name="restore")
 ]
