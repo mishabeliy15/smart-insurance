@@ -16,6 +16,12 @@ RUN apt-get update -yqq \
     && apt-get autoclean -yqq \
     && apt-get autoremove -yqq
 
+RUN apt-get update && apt-get install -yqq wget lsb-release
+#RUN apt-get update && apt-get install -y lsb-release
+RUN sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+RUN wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
+RUN apt-get update && apt-get install -yqq postgresql-client-13
+
 WORKDIR /usr/src/app/
 
 COPY requirements.txt /usr/src/app/requirements.txt

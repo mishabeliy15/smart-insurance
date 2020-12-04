@@ -1,5 +1,6 @@
 mock_data
 mock_data/
+backend/backup/
 
 *.crt
 *.key
