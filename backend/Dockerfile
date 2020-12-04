@@ -31,5 +31,6 @@ RUN pip install -r requirements.txt
 COPY . /usr/src/app/
 
 # RUN mkdir -vp /usr/src/app/static && ./manage.py collectstatic --noinput << yes
+RUN mkdir -vp /usr/certs
 
 CMD ["uwsgi", "--ini", "uwsgi.ini"]

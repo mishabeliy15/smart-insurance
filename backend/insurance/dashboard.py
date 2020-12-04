@@ -7,7 +7,8 @@ class CustomIndexDashboard(Dashboard):
     columns = 3
 
     def init_with_context(self, context):
-        self.available_children.append(modules.LinkList)
+        # self.available_children.append(modules.LinkList)
+        super(CustomIndexDashboard, self).init_with_context(context)
         self.children.append(
             modules.LinkList(
                 _("DB Backups"),
@@ -22,6 +23,11 @@ class CustomIndexDashboard(Dashboard):
                         "url": "/api/v0/restore/",
                         "external": False,
                     },
+                    {
+                        "title": _("Update cert"),
+                        "url": "/api/v0/update-cert/",
+                        "external": False,
+                    }
                 ],
                 column=0,
                 order=0,

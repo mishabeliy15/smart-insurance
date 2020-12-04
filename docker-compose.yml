@@ -22,6 +22,7 @@ services:
       - ./backend/.env
     volumes:
       - ./backend/:/usr/src/app/
+      - ./nginx/certs/:/usr/certs/
     ports:
       - 8000:80
     depends_on:
