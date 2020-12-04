@@ -26,7 +26,7 @@ WORKDIR /usr/src/app/
 
 COPY requirements.txt /usr/src/app/requirements.txt
 RUN pip install -r requirements.txt
-RUN pip install git+https://github.com/mjs7231/django-dbbackup.git#egg=django-dbbackup
+#RUN pip install git+https://github.com/mjs7231/django-dbbackup.git#egg=django-dbbackup
 
 COPY . /usr/src/app/
 
