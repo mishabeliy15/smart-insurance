@@ -2,8 +2,13 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Trans, withNamespaces } from "react-i18next";
 import { withStyles } from "@material-ui/core/styles";
-import { createCompany, getMyCompany } from "../../actions/company";
+import {
+  createCompany,
+  deleteCompany,
+  getMyCompany,
+} from "../../actions/company";
 import history from "../../helpers/history";
+import DeleteIcon from "@material-ui/icons/Delete";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import CardMedia from "@material-ui/core/CardMedia";
@@ -11,6 +16,7 @@ import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import CardActions from "@material-ui/core/CardActions";
 import Button from "@material-ui/core/Button";
+import EditIcon from "@material-ui/icons/Edit";
 import Grid from "@material-ui/core/Grid";
 
 const useStyles = (theme) => ({
@@ -29,6 +35,11 @@ class MyCompaniesPage extends Component {
     const { dispatch } = this.props;
     dispatch(getMyCompany());
   }
+
+  handleDeleteCompany = (id) => {
+    const { dispatch } = this.props;
+    dispatch(deleteCompany(id));
+  };
 
   render() {
     const { classes } = this.props;
@@ -90,11 +101,23 @@ class MyCompaniesPage extends Component {
                   </CardContent>
                 </CardActionArea>
                 <CardActions>
-                  <Button size="small" color="primary">
-                    Share
+                  <Button
+                    size="small"
+                    variant="contained"
+                    color="primary"
+                    onClick={() => history.push(`/companies/${item.id}`)}
+                    startIcon={<EditIcon />}
+                  >
+                    <Trans>Edit</Trans>
                   </Button>
-                  <Button size="small" color="primary">
-                    Learn More
+                  <Button
+                    size="small"
+                    variant="contained"
+                    color="secondary"
+                    onClick={() => this.handleDeleteCompany(item.id)}
+                    startIcon={<DeleteIcon />}
+                  >
+                    <Trans>Delete</Trans>
                   </Button>
                 </CardActions>
               </Card>

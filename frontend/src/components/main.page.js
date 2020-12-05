@@ -31,6 +31,7 @@ import CreateCompanyPage from "./companies/create-company.page";
 import AddIcon from "@material-ui/icons/Add";
 import AccountBalanceIcon from "@material-ui/icons/AccountBalance";
 import MyCompaniesPage from "./companies/my-companies.page";
+import EditCompanyPage from "./companies/edit-company.page";
 
 const userTypeNavigationListItem = {
   1: [
@@ -72,6 +73,7 @@ const userTypeSwitchRoutes = {
       <Route exact path="/companies/add">
         <CreateCompanyPage />
       </Route>
+      <Route path="/companies/:id" component={EditCompanyPage} />
     </Switch>
   ),
 };

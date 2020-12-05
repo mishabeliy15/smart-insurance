@@ -1,7 +1,6 @@
 import CompanyService from "./../services/company.services";
 import {
   CLEAR_MESSAGE,
-  COMPANIES_LOADED,
   LOADING_COMPANIES,
   REFRESH_COMPANIES,
   SET_MESSAGE,
@@ -25,3 +24,19 @@ export const getMyCompany = () => (dispatch) => {
     return Promise.resolve();
   });
 };
+
+export const deleteCompany = (id) => (dispatch) =>
+  CompanyService.deleteCompany(id).then(() => dispatch(getMyCompany()));
+
+export const getCompany = (id) => (dispatch) => CompanyService.getCompany(id);
+
+export const editCompany = (id, data) => (dispatch) =>
+  CompanyService.editCompany(id, data)
+    .then(() => {
+      dispatch({ type: CLEAR_MESSAGE });
+      return Promise.resolve();
+    })
+    .catch((error) => {
+      dispatch({ type: SET_MESSAGE, payload: error.response.data });
+      return Promise.reject();
+    });

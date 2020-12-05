@@ -23,6 +23,32 @@ class CompanyService {
       (response) => response.data.results
     );
   }
+
+  deleteCompany(id) {
+    return axios
+      .delete(`${this.BASE_API_URL}${id}/`)
+      .then((response) => response.data);
+  }
+
+  editCompany(id, inputData) {
+    let data = new FormData();
+    for (let key in inputData) {
+      data.append(key, inputData[key]);
+    }
+    let config = {
+      method: "patch",
+      url: `${this.BASE_API_URL}${id}/`,
+      headers: data.getHeaders,
+      data: data,
+    };
+    return axios(config).then((response) => response.data);
+  }
+
+  getCompany(id) {
+    return axios
+      .get(`${this.BASE_API_URL}${id}/`)
+      .then((response) => response.data);
+  }
 }
 
 export default new CompanyService();
