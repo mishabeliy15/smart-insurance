@@ -78,7 +78,10 @@ class SpeedRecordViewSet(ModelViewSet):
     def perform_create(self, serializer):
         if serializer.is_valid():
             p = serializer.validated_data["location"]
-            max_speed = self.api_client.get_speed_limit(p.y, p.x)
+            try:
+                max_speed = self.api_client.get_speed_limit(p.y, p.x)
+            except:
+                max_speed = 90
             over_speed = serializer.validated_data["speed"] / max_speed
             serializer.save(over_speed=over_speed)
 

@@ -3,6 +3,7 @@ import axios from "../helpers/axios";
 class CompanyService {
   BASE_API_URL = "companies/";
   MY_COMPANY_API_URL = `${this.BASE_API_URL}my/`;
+  PERSONAL_PRICE_API_URL = `${this.BASE_API_URL}personal_price/`;
 
   createCompany(inputData) {
     let data = new FormData();
@@ -47,6 +48,12 @@ class CompanyService {
   getCompany(id) {
     return axios
       .get(`${this.BASE_API_URL}${id}/`)
+      .then((response) => response.data);
+  }
+
+  personalPrice() {
+    return axios
+      .get(this.PERSONAL_PRICE_API_URL)
       .then((response) => response.data);
   }
 }

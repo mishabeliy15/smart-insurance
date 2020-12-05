@@ -32,11 +32,18 @@ import AddIcon from "@material-ui/icons/Add";
 import AccountBalanceIcon from "@material-ui/icons/AccountBalance";
 import MyCompaniesPage from "./companies/my-companies.page";
 import EditCompanyPage from "./companies/edit-company.page";
+import BestCompanyPricePage from "./companies/best-company-price.page";
+import EmojiTransportationIcon from "@material-ui/icons/EmojiTransportation";
 
 const userTypeNavigationListItem = {
   1: [
     { name: "Dashboard", icon: <DashboardIcon />, url: "/" },
     { name: "Sensors", icon: <BuildIcon />, url: "/sensors" },
+    {
+      name: "Find best company",
+      icon: <EmojiTransportationIcon />,
+      url: "/best-price",
+    },
   ],
   2: [
     {
@@ -61,6 +68,9 @@ const userTypeSwitchRoutes = {
       </Route>
       <Route exact path="/sensors/add">
         <AddSensorPage />
+      </Route>
+      <Route exact path="/best-price">
+        <BestCompanyPricePage />
       </Route>
     </Switch>
   ),

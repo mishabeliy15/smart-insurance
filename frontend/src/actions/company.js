@@ -40,3 +40,11 @@ export const editCompany = (id, data) => (dispatch) =>
       dispatch({ type: SET_MESSAGE, payload: error.response.data });
       return Promise.reject();
     });
+
+export const getPersonalCompanyPrices = () => (dispatch) => {
+  dispatch({ type: LOADING_COMPANIES });
+  return CompanyService.personalPrice().then((data) => {
+    dispatch({ type: REFRESH_COMPANIES, payload: data });
+    return Promise.resolve();
+  });
+};
