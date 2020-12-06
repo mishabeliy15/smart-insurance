@@ -1,4 +1,4 @@
-import { withNamespaces } from "react-i18next";
+import { Trans, withNamespaces } from "react-i18next";
 import { withStyles } from "@material-ui/core/styles";
 import { connect } from "react-redux";
 import LogOutComponent from "./auth/logout.component";
@@ -18,10 +18,11 @@ import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import DashboardIcon from "@material-ui/icons/Dashboard";
+// import DashboardIcon from "@material-ui/icons/Dashboard";
 import withTheme from "@material-ui/core/styles/withTheme";
 import { Redirect, Router, Switch } from "react-router";
 import { Link, Route } from "react-router-dom";
+import { default as HrefLink } from "@material-ui/core/Link";
 import history from "../helpers/history";
 import useStyles from "./main.page.style";
 import BuildIcon from "@material-ui/icons/Build";
@@ -39,7 +40,7 @@ import DescriptionIcon from "@material-ui/icons/Description";
 
 const userTypeNavigationListItem = {
   1: [
-    { name: "Dashboard", icon: <DashboardIcon />, url: "/" },
+    // { name: "Dashboard", icon: <DashboardIcon />, url: "/" },
     { name: "Sensors", icon: <BuildIcon />, url: "/sensors" },
     {
       name: "Find best company",
@@ -144,6 +145,9 @@ class MainComponent extends Component {
               <MenuIcon />
             </IconButton>
             <ChangeLanguageComponent />
+            <HrefLink href="/admin/" color="inherit" className="MuiLink-button">
+              <Trans>Admin panel</Trans>
+            </HrefLink>
             <LogOutComponent color="inherit" className={classes.panelButton} />
           </Toolbar>
         </AppBar>

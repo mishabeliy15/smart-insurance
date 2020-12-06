@@ -37,6 +37,7 @@ class CreateCompanyPage extends Component {
       max_speed_penalty: 1000,
       max_rotate_head_discount: 100,
       max_rotate_head_penalty: 600,
+      min_angle_commit_rotate_head: 30,
     };
   }
 
@@ -139,7 +140,7 @@ class CreateCompanyPage extends Component {
                 error={this.props.message && this.props.message.max_price}
               />
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={3}>
               <TextField
                 required
                 fullWidth={true}
@@ -159,7 +160,7 @@ class CreateCompanyPage extends Component {
                 }
               />
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={3}>
               <TextField
                 fullWidth={true}
                 required
@@ -181,7 +182,29 @@ class CreateCompanyPage extends Component {
                 }
               />
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={3}>
+              <TextField
+                fullWidth={true}
+                required
+                id="min_angle_commit_rotate_head"
+                label={t("Min angle to commit rotate head")}
+                onChange={this.handleInputChange}
+                value={this.state.min_angle_commit_rotate_head}
+                name="min_angle_commit_rotate_head"
+                type="number"
+                autoComplete={t("Min angle to commit rotate head")}
+                placeholder={t("Min angle to commit rotate head")}
+                helperText={
+                  this.props.message &&
+                  this.props.message.min_angle_commit_rotate_head
+                }
+                error={
+                  this.props.message &&
+                  this.props.message.min_angle_commit_rotate_head
+                }
+              />
+            </Grid>
+            <Grid item xs={3}>
               <TextField
                 required
                 fullWidth={true}

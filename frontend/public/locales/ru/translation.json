@@ -46,5 +46,7 @@
   "Are you sure you want to delete?": "Вы уверены, что хотите разорвать контракт?",
   "Personal coefficient": "Персональный коеффициент",
   "Term date": "Дата окончание контракта",
-  "Start date": "Дата начала контракта"
+  "Start date": "Дата начала контракта",
+  "Min angle to commit rotate head": "Минимальный угол для фиксации поворота головы",
+  "Sign a contract": "Заключить контракт"
 }
