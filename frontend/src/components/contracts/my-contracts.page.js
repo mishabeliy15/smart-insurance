@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Button from "@material-ui/core/Button";
+import history from "../../helpers/history";
 import { Trans, withNamespaces } from "react-i18next";
 import { getPersonalCompanyPrices } from "../../actions/company";
 import { connect } from "react-redux";
@@ -19,6 +20,12 @@ import TextField from "@material-ui/core/TextField";
 import DialogActions from "@material-ui/core/DialogActions";
 import Dialog from "@material-ui/core/Dialog";
 import ContractServices from "./../../services/contract.services";
+import DeleteIcon from "@material-ui/icons/Delete";
+import {
+  deleteContract,
+  getContracts,
+  getContractsWithCompanies,
+} from "../../actions/contracts";
 
 const useStyles = (theme) => ({
   root: {
@@ -31,21 +38,22 @@ const useStyles = (theme) => ({
   },
 });
 
-class BestCompanyPricePage extends Component {
+class MyContractsPage extends Component {
   constructor(props) {
     super(props);
-    this.state = { dialogIsOpen: false, companyID: undefined, months: 3 };
+    this.state = { dialogIsOpen: false, contractID: undefined };
   }
 
   componentDidMount() {
     const { dispatch } = this.props;
-    dispatch(getPersonalCompanyPrices());
+    dispatch(getContractsWithCompanies());
+    console.log(this.props);
   }
 
-  handleOpenSignContractDialog = (id) => {
+  handleOpenDeleteContractDialog = (id) => {
     this.setState({
       dialogIsOpen: true,
-      companyID: id,
+      contractID: id,
     });
   };
 
@@ -53,11 +61,11 @@ class BestCompanyPricePage extends Component {
     this.setState({ dialogIsOpen: false });
   };
 
-  signContract = () => {
-    ContractServices.createContract(
-      this.state.companyID,
-      this.state.months
-    ).then(() => this.handleClose());
+  deleteContract = () => {
+    const { dispatch } = this.props;
+    dispatch(deleteContract(this.state.contractID)).then(() =>
+      this.handleClose()
+    );
   };
 
   handleChangeMonths = (event) => {
@@ -68,45 +76,44 @@ class BestCompanyPricePage extends Component {
     });
   };
 
+  transformCompaniesToDict = () => {
+    let companies = {};
+    this.props.company.companies.forEach((item) => (companies[item.id] = item));
+    return companies;
+  };
+
   render() {
     const { classes, t } = this.props;
+    const companies = this.transformCompaniesToDict();
     return (
       <div className={classes.root}>
         {this.state.dialogIsOpen && (
           <Dialog
             open={this.state.dialogIsOpen}
             onClose={this.handleClose}
-            aria-labelledby="form-dialog-title"
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
           >
-            <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
+            <DialogTitle id="alert-dialog-title">
+              {t("Delete the contract?")}
+            </DialogTitle>
             <DialogContent>
-              <DialogContentText>
-                <Trans>To sign the contract, please enter month term</Trans>
+              <DialogContentText id="alert-dialog-description">
+                <Trans>Are you sure you want to delete?</Trans>
               </DialogContentText>
-              <TextField
-                value={this.state.months}
-                onChange={this.handleChangeMonths}
-                autoFocus
-                margin="dense"
-                id="months"
-                name="months"
-                label={t("Duration (months)")}
-                type="number"
-                fullWidth
-              />
             </DialogContent>
             <DialogActions>
               <Button onClick={this.handleClose} color="primary">
                 <Trans>Cancel</Trans>
               </Button>
-              <Button onClick={this.signContract} color="primary">
-                <Trans>Sign a contract</Trans>
+              <Button onClick={this.deleteContract} color="primary" autoFocus>
+                <Trans>Delete</Trans>
               </Button>
             </DialogActions>
           </Dialog>
         )}
         <Grid container spacing={3}>
-          {this.props.companies.map((item) => (
+          {this.props.contract.contracts.map((contract) => (
             <Grid item xs={12} sm={6} md={4}>
               <Card className={classes.root}>
                 <CardActionArea>
@@ -114,22 +121,36 @@ class BestCompanyPricePage extends Component {
                     component="img"
                     alt="Contemplative Reptile"
                     height="140"
-                    image={item.logo}
+                    image={companies[contract.company].logo}
                     title="Contemplative Reptile"
                   />
                   <CardContent>
-                    <Typography gutterBottom variant="h5" component="h2">
-                      {item.name}
+                    <Typography gutterBottom variant="h4" component="h2">
+                      {companies[contract.company].name}
                     </Typography>
                     <Typography variant="body2" color="primary" component="p">
-                      <Trans>Personal price</Trans>: {item.own_price}
+                      <Trans>Personal coefficient</Trans>:{" "}
+                      {contract.personal_coefficient}
+                    </Typography>
+                    <Typography variant="body2" color="primary" component="p">
+                      <Trans>Term date</Trans>:{" "}
+                      {new Date(contract.end_date).toLocaleString()}
+                    </Typography>
+                    <Typography variant="body2" color="primary" component="p">
+                      <Trans>Start date</Trans>:{" "}
+                      {new Date(contract.created).toLocaleString()}
+                    </Typography>
+                    <Typography variant="body2" color="primary" component="p">
+                      <Trans>Personal price</Trans>:{" "}
+                      {companies[contract.company].own_price}
                     </Typography>
                     <Typography
                       variant="body2"
                       color="textSecondary"
                       component="p"
                     >
-                      <Trans>Speed discount</Trans>: {item.own_speed_discount}
+                      <Trans>Speed discount</Trans>:{" "}
+                      {companies[contract.company].own_speed_discount}
                     </Typography>
                     <Typography
                       variant="body2"
@@ -137,40 +158,45 @@ class BestCompanyPricePage extends Component {
                       component="p"
                     >
                       <Trans>Head rotate discount</Trans>:{" "}
-                      {item.own_head_rotate_discount}
+                      {companies[contract.company].own_head_rotate_discount}
                     </Typography>
                     <Typography
                       variant="body2"
                       color="textSecondary"
                       component="p"
                     >
-                      <Trans>Base price</Trans>: {item.base_price}
+                      <Trans>Base price</Trans>:{" "}
+                      {companies[contract.company].base_price}
                     </Typography>
                     <Typography
                       variant="body2"
                       color="textSecondary"
                       component="p"
                     >
-                      <Trans>Min price</Trans>: {item.min_price}
+                      <Trans>Min price</Trans>:{" "}
+                      {companies[contract.company].min_price}
                     </Typography>
                     <Typography
                       variant="body2"
                       color="textSecondary"
                       component="p"
                     >
-                      <Trans>Max price</Trans>: {item.max_price}
+                      <Trans>Max price</Trans>:{" "}
+                      {companies[contract.company].max_price}
                     </Typography>
                   </CardContent>
                 </CardActionArea>
                 <CardActions>
                   <Button
-                    size="small"
                     variant="contained"
-                    color="primary"
-                    onClick={() => this.handleOpenSignContractDialog(item.id)}
-                    startIcon={<ReceiptIcon />}
+                    color="secondary"
+                    className={classes.button}
+                    startIcon={<DeleteIcon />}
+                    onClick={() =>
+                      this.handleOpenDeleteContractDialog(contract.id)
+                    }
                   >
-                    <Trans>Sign a contract</Trans>
+                    <Trans>Delete</Trans>
                   </Button>
                 </CardActions>
               </Card>
@@ -183,10 +209,10 @@ class BestCompanyPricePage extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const { company } = state;
-  return company;
+  const { company, contract } = state;
+  return { company, contract };
 };
 
 export default connect(mapStateToProps)(
-  withStyles(useStyles)(withNamespaces()(BestCompanyPricePage))
+  withStyles(useStyles)(withNamespaces()(MyContractsPage))
 );

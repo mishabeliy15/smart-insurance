@@ -5,6 +5,7 @@ import message from "./message";
 import common from "./common";
 import sensors from "./sensor";
 import company from "./company";
+import contract from "./contracts";
 
 export default combineReducers({
   routing: routerReducer,
@@ -13,4 +14,5 @@ export default combineReducers({
   common,
   sensors,
   company,
+  contract,
 });

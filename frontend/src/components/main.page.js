@@ -34,6 +34,8 @@ import MyCompaniesPage from "./companies/my-companies.page";
 import EditCompanyPage from "./companies/edit-company.page";
 import BestCompanyPricePage from "./companies/best-company-price.page";
 import EmojiTransportationIcon from "@material-ui/icons/EmojiTransportation";
+import MyContractsPage from "./contracts/my-contracts.page";
+import DescriptionIcon from "@material-ui/icons/Description";
 
 const userTypeNavigationListItem = {
   1: [
@@ -43,6 +45,11 @@ const userTypeNavigationListItem = {
       name: "Find best company",
       icon: <EmojiTransportationIcon />,
       url: "/best-price",
+    },
+    {
+      name: "My contracts",
+      icon: <DescriptionIcon />,
+      url: "/contracts",
     },
   ],
   2: [
@@ -71,6 +78,9 @@ const userTypeSwitchRoutes = {
       </Route>
       <Route exact path="/best-price">
         <BestCompanyPricePage />
+      </Route>
+      <Route exact path="/contracts">
+        <MyContractsPage />
       </Route>
     </Switch>
   ),

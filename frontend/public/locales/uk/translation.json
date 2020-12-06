@@ -37,5 +37,14 @@
   "Max rotate discount": "Максимальна знижка за межі не повертання голови",
   "Max rotate head penalty": "Максимальна пеня за поворот голови",
   "Edit": "Редагувати",
-  "Delete": "Видалити"
+  "Delete": "Видалити",
+  "Personal price": "Персональна ціна",
+  "Speed discount": "Знижка за дотримання швидкісного режиму",
+  "Head rotate discount": "Знижка за неповорачіванія голови",
+  "Cancel": "Закрити",
+  "Delete the contract?": "Розірвати контракт?",
+  "Are you sure you want to delete?": "Ви впевнені, що хочете розірвати контракт?",
+  "Personal coefficient": "Персональний коефіцієнт",
+  "Term date": "Дата закінчення контракту",
+  "Start date": "Дата початку контракту"
 }

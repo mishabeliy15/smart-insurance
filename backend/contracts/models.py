@@ -48,6 +48,13 @@ class Contract(BaseModel):
 
     @staticmethod
     @authenticated_users
+    def has_destroy_permission(request) -> bool:
+        return (
+                request.user.is_superuser or request.user.user_type == request.user.DRIVER
+        )
+
+    @staticmethod
+    @authenticated_users
     def has_my_permission(request) -> bool:
         return True
 

@@ -37,5 +37,14 @@
   "Max rotate discount": "Максимальная скидка за не поворачивание головы",
   "Max rotate head penalty": "Максимальная пеня за поворот головы",
   "Edit": "Редактировать",
-  "Delete": "Удалить"
+  "Delete": "Удалить",
+  "Personal price": "Персональная цена",
+  "Speed discount": "Скидка за соблюдения скоростного режима",
+  "Head rotate discount": "Скидка за неповорачивания головы",
+  "Cancel": "Закрыть",
+  "Delete the contract?": "Разорвать контракт?",
+  "Are you sure you want to delete?": "Вы уверены, что хотите разорвать контракт?",
+  "Personal coefficient": "Персональный коеффициент",
+  "Term date": "Дата окончание контракта",
+  "Start date": "Дата начала контракта"
 }
