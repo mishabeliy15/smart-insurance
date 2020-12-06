@@ -20,7 +20,7 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import withTheme from "@material-ui/core/styles/withTheme";
-import { Router, Switch } from "react-router";
+import { Redirect, Router, Switch } from "react-router";
 import { Link, Route } from "react-router-dom";
 import history from "../helpers/history";
 import useStyles from "./main.page.style";
@@ -69,7 +69,9 @@ const userTypeNavigationListItem = {
 const userTypeSwitchRoutes = {
   1: (
     <Switch>
-      <Route exact path="/"></Route>
+      <Route exact path="/">
+        <Redirect to="/best-price" />
+      </Route>
       <Route exact path="/sensors">
         <SensorPage />
       </Route>
@@ -86,7 +88,9 @@ const userTypeSwitchRoutes = {
   ),
   2: (
     <Switch>
-      <Route exact path="/"></Route>
+      <Route exact path="/">
+        <Redirect to="/companies" />
+      </Route>
       <Route exact path="/companies">
         <MyCompaniesPage />
       </Route>
