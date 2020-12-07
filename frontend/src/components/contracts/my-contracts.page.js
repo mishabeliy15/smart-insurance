@@ -128,10 +128,10 @@ class MyContractsPage extends Component {
                     <Typography gutterBottom variant="h4" component="h2">
                       {companies[contract.company].name}
                     </Typography>
-                    <Typography variant="body2" color="primary" component="p">
-                      <Trans>Personal coefficient</Trans>:{" "}
-                      {contract.personal_coefficient}
-                    </Typography>
+                    {/*<Typography variant="body2" color="primary" component="p">*/}
+                    {/*  <Trans>Personal coefficient</Trans>:{" "}*/}
+                    {/*  {contract.personal_coefficient}*/}
+                    {/*</Typography>*/}
                     <Typography variant="body2" color="primary" component="p">
                       <Trans>Term date</Trans>:{" "}
                       {new Date(contract.end_date).toLocaleString()}
