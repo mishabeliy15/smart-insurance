@@ -58,6 +58,11 @@ class Contract(BaseModel):
     def has_my_permission(request) -> bool:
         return True
 
+    @staticmethod
+    @authenticated_users
+    def has_my_detail_permission(request) -> bool:
+        return True
+
 
 class Offer(BaseModel):
     PENDING = 1

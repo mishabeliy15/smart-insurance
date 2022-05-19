@@ -23,8 +23,6 @@ from drf_spectacular.views import (
 )
 
 urlpatterns = [
-    path("jet/dashboard/", include("jet.dashboard.urls", "jet-dashboard")),
-    path("jet/", include("jet.urls", "jet")),
     path("admin/", admin.site.urls),
     path("api/v0/", include("api.urls")),
     path("api/v0/", include("sensors.urls")),

@@ -40,8 +40,6 @@ CORS_ALLOW_ALL_ORIGINS = env.bool("CORS_ALLOW_ALL_ORIGINS", True)
 # Application definition
 
 INSTALLED_APPS = [
-    "jet.dashboard",
-    "jet",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",

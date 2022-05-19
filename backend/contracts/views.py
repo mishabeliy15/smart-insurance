@@ -4,7 +4,7 @@ from rest_framework.response import Response
 
 from contracts.filters import ContractFilterBackend
 from contracts.models import Contract, Offer
-from contracts.serializers import ContractSerializer, OfferSerializer
+from contracts.serializers import ContractSerializer, OfferSerializer, ContractDetailSerializer
 from django.utils.translation import gettext as _
 from django_filters.rest_framework import DjangoFilterBackend
 from dry_rest_permissions.generics import DRYPermissions
@@ -34,6 +34,11 @@ class ContractViewSet(ModelViewSet):
         "customer__username",
     )
 
+    def get_serializer_class(self):
+        if self.action == "my_detail":
+            return ContractDetailSerializer
+        return self.serializer_class
+
     def perform_create(self, serializer):
         serializer.is_valid(raise_exception=True)
         delta = datetime.timedelta(days=serializer.validated_data["months"] * 30)
@@ -42,6 +47,10 @@ class ContractViewSet(ModelViewSet):
 
     @action(detail=False, methods=("GET",))
     def my(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+
+    @action(detail=False, methods=("GET",))
+    def my_detail(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
 
 

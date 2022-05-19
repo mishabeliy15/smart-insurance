@@ -1,6 +1,7 @@
 import datetime
 
 from api.models import Company, User
+from api.serializers import CompanySerializer
 from contracts.models import Contract, Offer
 from rest_framework import serializers
 
@@ -33,3 +34,17 @@ class OfferSerializer(serializers.ModelSerializer):
         model = Offer
         fields = "__all__"
         read_only_fields = ("status",)
+
+
+class ContractDetailSerializer(ContractSerializer):
+    company = CompanySerializer()
+    is_end = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Contract
+        fields = "__all__"
+        read_only_fields = ("end_date", "customer", "personal_coefficient")
+
+    def get_is_end(self, contract: Contract) -> bool:
+        now = datetime.datetime.now(tz=datetime.timezone.utc)
+        return now > contract.end_date
